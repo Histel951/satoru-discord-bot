@@ -10,19 +10,19 @@ services:
         restart: unless-stopped
         env_file: .env
         environment:
-            - ENV=$ENV:-dev
-            - DISCORD_TOKEN=$DISCORD_TOKEN
-            - DISCORD_CLIENT_ID=$DISCORD_CLIENT_ID
-            - GUILD_ID=$GUILD_ID
-            - MONGO_USERNAME=$MONGO_USERNAME:-root
-            - MONGO_PASSWORD=$MONGO_PASSWORD:-root
-            - MONGO_HOSTNAME=db
-            - MONGO_PORT=$MONGO_PORT:-27017
-            - MONGO_DB=$MONGO_DB:-satoro_bot
+            ENV: '${ENV:-dev}'
+            DISCORD_TOKEN: '${DISCORD_TOKEN}'
+            DISCORD_CLIENT_ID: '${DISCORD_CLIENT_ID}'
+            GUILD_ID: '${GUILD_ID}'
+            MONGO_USERNAME: '${MONGO_USERNAME:-root}'
+            MONGO_PASSWORD: '${MONGO_PASSWORD:-root}'
+            MONGO_HOSTNAME: db
+            MONGO_PORT: '${MONGO_PORT:-27017}'
+            MONGO_DB: '${MONGO_DB:-satoro_bot}'
         ports:
             - "80:8080"
         volumes:
-            - .:/home/node/app
+            - ./:/home/node/app
             - node_modules:/home/node/app/node_modules
         networks:
             - bot
@@ -34,8 +34,8 @@ services:
         restart: unless-stopped
         env_file: .env
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME:-root
-            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD:-root
+            MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME:-root}'
+            MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD:-root}'
         volumes:
             - mongo:/data/db
         networks:
