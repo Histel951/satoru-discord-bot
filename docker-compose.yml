@@ -26,7 +26,7 @@ services:
             - node_modules:/home/node/app/node_modules
         networks:
             - bot
-        command: '/home/node/app/docker/node/${NODE_DOCKER_ENV:-20}/wait-for.sh db:${MONGO_PORT:-27017} -- npm run ${ENV:-dev} --prefix /home/node/app'
+        command: '/home/node/app/docker/node/${NODE_DOCKER_ENV:-20}/wait-for.sh db:${MONGO_PORT:-27017} -- npm run ${ENV:-docker} --prefix /home/node/app'
 
     db:
         image: 'mongo:${MONGO_TAG:-7.0.4}'

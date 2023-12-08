@@ -7,6 +7,7 @@
     "build": "bash cmd/build.sh",
     "start": "node build/index.js && ENV=prod",
     "dev": "nodemon src/index.ts",
+    "docker": "nodemon --legacy-watch src/index.ts",
     "command-deploy": "node build/command-deploy.js"
   },
   "keywords": [],

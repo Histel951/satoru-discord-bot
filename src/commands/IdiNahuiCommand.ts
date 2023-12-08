@@ -3,7 +3,7 @@ import {
     InteractionResponse,
     SlashCommandBuilder
 } from "discord.js";
-import {CommandType} from "../types";
+import {CommandType} from "./types";
 
 class IdiNahuiCommand implements CommandType
 {
