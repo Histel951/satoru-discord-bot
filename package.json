@@ -4,9 +4,10 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "build": "bash cmd/build.sh",
-    "start": "node build/index.js && ENV=prod",
+    "build": "cmd/build.sh",
+    "prod": "npm run build && node build/index.js && ENV=prod",
     "dev": "nodemon src/index.ts",
+    "docker": "nodemon --legacy-watch src/index.ts",
     "command-deploy": "node build/command-deploy.js"
   },
   "keywords": [],
@@ -15,7 +16,8 @@
   "dependencies": {
     "@typeit/discord": "^5.0.16",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.1",
