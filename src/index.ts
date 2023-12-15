@@ -3,11 +3,17 @@ import {
     GatewayIntentBits,
     Events,
     Interaction,
-    CommandInteraction
+    CommandInteraction,
+    Integration,
+    ComponentType,
+    ModalSubmitInteraction,
+    ButtonInteraction,
+    CacheType,
+    InteractionResponse,
+    ActivityType
 } from "discord.js";
-import { commands } from "./containers";
+import { commands, handlers } from "./containers";
 import 'dotenv/config';
-
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
@@ -19,8 +25,27 @@ client.on(Events.ClientReady, (client): void => {
     }
 });
 
-client.on('interactionCreate', async (interaction: Interaction|CommandInteraction) => {
+client.on(Events.InteractionCreate, async (interaction: Interaction|CommandInteraction) => {
     if (!interaction.isChatInputCommand()) return;
+
+    const collectorFilter = i => {
+        return i.user.id === interaction.user.id;
+    };
+
+    interaction.channel.awaitMessageComponent({
+        componentType: ComponentType.Button,
+        time: 600000,
+        filter: collectorFilter
+    }).then(async (interaction: ButtonInteraction<CacheType>) => {
+        return await handlers.execute(interaction.customId, interaction);
+    });
+
+    interaction.awaitModalSubmit({
+        time: 600000,
+        filter: collectorFilter
+    }).then(async (interaction: ModalSubmitInteraction) => {
+        return await handlers.execute(interaction.customId, interaction);
+    });
 
     await commands.get(interaction.commandName).execute(interaction);
 });

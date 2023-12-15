@@ -7,7 +7,7 @@ const rest = new REST({
 }).setToken(process.env.DISCORD_TOKEN);
 
 
-const deployCommands = commands.getALl().map(command => ({
+const deployCommands = commands.getAll().map(command => ({
     name: command.data.name,
     description: command.data.description
 }));

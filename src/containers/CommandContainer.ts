@@ -10,7 +10,8 @@ export class CommandContainer
      */
     private readonly commands: CommandCollectionType;
 
-    constructor() {
+    constructor()
+    {
         this.commands = new Collection();
     }
 
@@ -24,7 +25,7 @@ export class CommandContainer
         return this.commands.get(name);
     }
 
-    public getALl(): CommandCollectionType
+    public getAll(): CommandCollectionType
     {
         return this.commands;
     }

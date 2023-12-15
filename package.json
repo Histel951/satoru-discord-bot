@@ -8,7 +8,7 @@
     "prod": "npm run build && node build/index.js && ENV=prod",
     "dev": "nodemon src/index.ts",
     "docker": "nodemon --legacy-watch src/index.ts",
-    "command-deploy": "node build/command-deploy.js"
+    "command-deploy": "npm run build && node build/command-deploy.js"
   },
   "keywords": [],
   "author": "",
