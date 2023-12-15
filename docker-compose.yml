@@ -40,6 +40,8 @@ services:
             - mongo:/data/db
         networks:
             - bot
+        ports:
+          - "${DB_PORT:-27017}:27017"
 
 networks:
   bot:

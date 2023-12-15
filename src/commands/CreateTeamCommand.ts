@@ -20,7 +20,7 @@ export const CreateTeamCommand: CommandType = {
         const testBtn = new ButtonBuilder()
             .setCustomId('team-info-btn')
             .setLabel('Информация')
-            .setStyle(ButtonStyle.Danger)
+            .setStyle(ButtonStyle.Secondary)
 
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(createCommandBtn, testBtn)
 

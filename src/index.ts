@@ -4,16 +4,19 @@ import {
     Events,
     Interaction,
     CommandInteraction,
-    Integration,
     ComponentType,
     ModalSubmitInteraction,
     ButtonInteraction,
     CacheType,
-    InteractionResponse,
-    ActivityType
 } from "discord.js";
 import { commands, handlers } from "./containers";
 import 'dotenv/config';
+import "./database/connect";
+import { connection } from "mongoose";
+
+if (connection) {
+    console.log(connection.db);
+}
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
