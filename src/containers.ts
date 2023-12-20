@@ -1,18 +1,25 @@
 import { CommandContainer } from "./containers/CommandContainer";
 import {idiNahuiCommand} from "./commands/IdiNahuiCommand";
-import { CreateTeamCommand } from "./commands/CreateTeamCommand"; 
+import { TeamCommand } from "./commands/TeamCommand";
 import { HandlersContainer } from "./containers/HandlersContainer";
-import { createTeamHandler, teamCreateHandler } from "./handlers/TeamHandlers";
+import {
+    addMembersToTeamHandler,
+    createTeamHandler,
+    submitTeamMembersHandler,
+    teamCreateHandler
+} from "./handlers/TeamHandlers";
 
 const commands = new CommandContainer();
 
 commands.register(idiNahuiCommand);
-commands.register(CreateTeamCommand);
+commands.register(TeamCommand);
 
 const handlers = new HandlersContainer();
 
 handlers.register('team-create-btn', teamCreateHandler);
 handlers.register('create-team-modal', createTeamHandler);
+handlers.register('add-members-to-team', addMembersToTeamHandler);
+handlers.register('submit-members-to-team', submitTeamMembersHandler);
 
 export {
     commands,

@@ -7,7 +7,7 @@ import {
     ActionRowBuilder
 } from "discord.js";
 
-export const CreateTeamCommand: CommandType = {
+export const TeamCommand: CommandType = {
     data: new SlashCommandBuilder()
         .setName('team')
         .setDescription('Действия связанные с командой'),
@@ -17,12 +17,17 @@ export const CreateTeamCommand: CommandType = {
             .setLabel('Создать команду')
             .setStyle(ButtonStyle.Success)
 
+        const addMembersToTeam = new ButtonBuilder()
+            .setCustomId('add-members-to-team')
+            .setLabel('Добавить участников')
+            .setStyle(ButtonStyle.Secondary)
+
         const testBtn = new ButtonBuilder()
             .setCustomId('team-info-btn')
             .setLabel('Информация')
             .setStyle(ButtonStyle.Secondary)
 
-        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(createCommandBtn, testBtn)
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(createCommandBtn, testBtn, addMembersToTeam)
 
         return Interaction.reply({
             content: 'Выберите действие команды:',

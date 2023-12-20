@@ -8,6 +8,7 @@ import {
     ModalSubmitInteraction,
     ButtonInteraction,
     CacheType,
+    UserSelectMenuInteraction,
 } from "discord.js";
 import { commands, handlers } from "./containers";
 import 'dotenv/config';
@@ -35,6 +36,14 @@ client.on(Events.InteractionCreate, async (interaction: Interaction|CommandInter
         time: 600000,
         filter: collectorFilter
     }).then(async (interaction: ButtonInteraction<CacheType>) => {
+        return await handlers.execute(interaction.customId, interaction);
+    });
+
+    interaction.channel.awaitMessageComponent({
+        componentType: ComponentType.UserSelect,
+        time: 600000,
+        filter: collectorFilter
+    }).then(async (interaction: UserSelectMenuInteraction<CacheType>) => {
         return await handlers.execute(interaction.customId, interaction);
     });
 

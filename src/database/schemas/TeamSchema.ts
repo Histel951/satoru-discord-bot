@@ -1,5 +1,10 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import {PlayerSchema} from "./PlayerSchema";
 
 export const TeamSchema = new Schema({
-    name: String
-});
+    name: String,
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Players'
+    }
+})
