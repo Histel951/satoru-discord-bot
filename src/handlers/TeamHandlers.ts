@@ -10,19 +10,18 @@ import {
     UserSelectMenuInteraction,
 } from "discord.js"
 import { HandleResponse } from "../containers/types"
-import { Teams, Players } from "../database/models"
+import { createTeam } from "../utils/team";
+import { createPlayer, findByDiscordId } from "../utils/player";
 
 export const teamCreateHandler = async (interaction: ButtonInteraction<CacheType>): HandleResponse => {
-    const player = (await Players.find({
-        discord_id: interaction.user.id
-    }).exec()).shift();
+    const player = await findByDiscordId(interaction.user.id)
 
-    if (!player?.discord_id) {
-        await new Players({
+    if (!player) {
+        await createPlayer({
             discord_id: interaction.user.id,
             team: null,
             fantasy_points: 0
-        }).save()
+        })
     }
 
     const commandNameInput = new TextInputBuilder()
@@ -45,22 +44,10 @@ export const teamCreateHandler = async (interaction: ButtonInteraction<CacheType
 export const createTeamHandler = async (interaction: ModalSubmitInteraction): HandleResponse => {
     const teamName = interaction.fields.getTextInputValue('team-name-input')
 
-    const player = (await Players.find({
-        discord_id: interaction.user.id
-    }).exec()).shift()
-
-    const team = new Teams({
-        name: teamName,
-        owner: player
-    })
-
-    await team.save()
-
-    await Players.updateOne({
-        discord_id: interaction.user.id
-    }, {
-        team: team
-    }).exec()
+    await createTeam({
+        discordId: interaction.user.id,
+        name: teamName
+    });
 
     return interaction.reply({content: `Команда "${teamName}" создана`, ephemeral: true})
 }
