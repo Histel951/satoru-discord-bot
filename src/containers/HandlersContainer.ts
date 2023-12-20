@@ -1,4 +1,4 @@
-import { ButtonInteraction, CacheType, InteractionResponse } from "discord.js";
+import { InteractionResponse } from "discord.js";
 import { HandleType, HandlersMap, HandleInteraction } from "./types";
 
 export class HandlersContainer

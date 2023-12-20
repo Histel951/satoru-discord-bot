@@ -1,5 +1,7 @@
 import { ActionRowBuilder, ButtonInteraction, CacheType, ModalBuilder, ModalSubmitInteraction, TextInputBuilder, TextInputStyle } from "discord.js";
 import { HandleResponse } from "../containers/types";
+import { satoroBotDb } from "../database/connect";
+import { TeamSchema } from "../database/schemas/TeamSchema";
 
 export const teamCreateHandler = (interaction: ButtonInteraction<CacheType>): HandleResponse => {
     const commandNameInput = new TextInputBuilder()
@@ -21,6 +23,15 @@ export const teamCreateHandler = (interaction: ButtonInteraction<CacheType>): Ha
 
 export const createTeamHandler = (interaction: ModalSubmitInteraction): HandleResponse => {
     const teamName = interaction.fields.getTextInputValue('team-name-input');
+
+    const Team = satoroBotDb.model('Team', TeamSchema);
+    const ts = new Team({
+        name: teamName
+    });
+
+    console.log(ts)
+    
+    ts.save();
 
     return interaction.reply({content: `Команда "${teamName}" создана`, ephemeral: true});
 }

@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 import 'dotenv/config';
 
-const connection = mongoose.createConnection(`mongodb://${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`)
-
-if (connection) {
-    console.log('mongoose database connected!');
-}
+export const satoroBotDb = mongoose.createConnection(
+    `mongodb://db:${process.env.MONGO_PORT}`,
+    {
+        user: 'root',
+        pass: 'root',
+        dbName: process.env.MONGO_DB
+    }
+);
