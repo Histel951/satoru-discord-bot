@@ -7,6 +7,5 @@ export type CreateTeamType = {
 
 export type PlayerType = {
     discord_id: string
-    fantasy_points: number|0
     team: Team|null
 }

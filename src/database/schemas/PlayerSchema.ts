@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 export const PlayerSchema = new Schema({
-    discord_id: String,
+    discord_id: { type: String, require: true },
     team: {
         type: mongoose.Types.ObjectId,
-        ref: 'Teams'
+        ref: 'Team',
+        default: null,
     },
-    fantasy_points: Number,
 })

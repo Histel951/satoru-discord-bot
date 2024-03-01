@@ -1,24 +1,30 @@
-import {Players, Teams} from "../database/models";
-import {Document} from "mongoose";
-import {CreateTeamType} from "../types";
+import { Player, Team } from "../database/models";
+import { CreateTeamType } from "../types";
 
 export const createTeam = async ({ discordId, name }: CreateTeamType) => {
-    const player = (await Players.find({
-        discord_id: discordId
-    }).exec()).shift()
+    try {
+        // Находим игрока по Discord ID
+        const player = await Player.findOne({ discord_id: discordId }).exec();
 
-    const team = new Teams({
-        name: name,
-        owner: player
-    })
+        if (!player) {
+            throw new Error(`Player with Discord ID ${discordId} not found`);
+        }
 
-    await team.save()
+        // Создаем новую команду с указанным именем и владельцем (игроком)
+        const team = new Team({
+            name: name,
+            owner: player
+        });
 
-    await Players.updateOne({
-        discord_id: player.discord_id
-    }, {
-        team: team
-    }).exec()
+        // Сохраняем команду
+        await team.save();
 
-    return team
-}
+        // Обновляем информацию о команде у игрока
+        player.team = team.id;
+        await player.save();
+
+        return team;
+    } catch (error) {
+        throw new Error(`Failed to create team: ${error.message}`);
+    }
+};

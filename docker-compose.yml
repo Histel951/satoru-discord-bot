@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-    node:
+    nodejs:
         build:
             context: 'docker/node/${NODE_DOCKER_ENV:-20}'
             dockerfile: Dockerfile
         image: nodejs
-        container_name: node
+        container_name: nodejs_satoro_bot
         restart: unless-stopped
         env_file: .env
         environment:
@@ -14,9 +14,9 @@ services:
             DISCORD_TOKEN: '${DISCORD_TOKEN}'
             DISCORD_CLIENT_ID: '${DISCORD_CLIENT_ID}'
             GUILD_ID: '${GUILD_ID:-}'
-            MONGO_USERNAME: '${MONGO_USERNAME:-root}'
-            MONGO_PASSWORD: '${MONGO_PASSWORD:-root}'
-            MONGO_HOSTNAME: db
+            MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
+            MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
+            MONGO_HOSTNAME: mongodb
             MONGO_PORT: '${MONGO_PORT:-27017}'
             MONGO_DB: '${MONGO_DB:-satoro_bot}'
         ports:
@@ -27,29 +27,32 @@ services:
         networks:
             - bot
         depends_on:
-            - db
-        command: '${DOCKER_PROJECT_DIR:-/home/node/app}/docker/node/${NODE_DOCKER_ENV:-20}/wait-for.sh db:${MONGO_PORT:-27017} -- npm run ${ENV:-docker} --prefix ${DOCKER_PROJECT_DIR:-/home/node/app}'
+            - mongodb
+        command: '${DOCKER_PROJECT_DIR:-/home/node/app}/docker/node/${NODE_DOCKER_ENV:-20}/wait-for.sh mongodb:${MONGO_PORT:-27017} -- npm run ${ENV:-docker} --prefix ${DOCKER_PROJECT_DIR:-/home/node/app}'
 
-    db:
-        image: 'mongo:${MONGO_TAG:-7.0.4}'
-        container_name: db
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb_satoro_bot
         restart: unless-stopped
         env_file: .env
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME:-root}'
-            MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD:-root}'
-            MONGO_INITDB_DATABASE: '${MONGO_DB:-satoro_bot}'
-        volumes:
-            - mongo:/data/db
+        ports:
+            - "${DB_PORT:-27017}:27017"
         networks:
             - bot
-        ports:
-          - "${DB_PORT:-27017}:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME:-admin}'
+            MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD:-password}'
+            MONGO_INITDB_DATABASE: '${MONGO_DB:-satoro_bot}'
+        user: 999:999
+        volumes:
+            - mongodb_data:/data/db
+            - ./init-scripts:/docker-entrypoint-initdb.d
 
 networks:
-  bot:
-    driver: bridge
+    bot:
+        driver: bridge
 
 volumes:
     node_modules:
-    mongo:
+    mongodb_data:
+        driver: local

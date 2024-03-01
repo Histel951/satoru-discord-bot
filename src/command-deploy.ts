@@ -1,6 +1,6 @@
 import {REST, Routes} from "discord.js"
 import { commands } from "./containers";
-import 'dotenv/config';
+import { SlashCommandBuilder } from "discord.js";
 
 const rest = new REST({
     version: '10'
@@ -9,7 +9,7 @@ const rest = new REST({
 
 const deployCommands = commands.getAll().map(command => ({
     name: command.data.name,
-    description: command.data.description
+    description: command.data instanceof SlashCommandBuilder ? command.data.description : ''
 }));
 
 rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
