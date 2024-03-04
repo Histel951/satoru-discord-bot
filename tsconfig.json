@@ -1,24 +1,19 @@
 {
   "compilerOptions": {
+    "target": "esnext",
     "module": "commonjs",
-    "target": "es2020",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "outDir": "build",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "declaration": true,
-    "importHelpers": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["ES2020", "ES2017", "esnext.asynciterable"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "removeComments": true
   },
-  "exclude": [
-    "node_modules",
-    "tests",
-    "examples",
-    "guides",
-    "**/*.spec.ts",
-    "starter-projects"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

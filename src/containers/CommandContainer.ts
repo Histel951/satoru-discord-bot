@@ -1,7 +1,9 @@
-import {CommandCollectionType, CommandType} from "../commands/types";
-import {Collection} from "discord.js";
+import { CommandCollectionType, CommandType } from "../types/CommandTypes";
+import { Collection } from "discord.js";
+import { Registrable } from "../interfaces/Registrable";
+import { ContainerI } from "../interfaces/ContainerI";
 
-export class CommandContainer
+export class CommandContainer implements ContainerI, Registrable
 {
     /**
      * Registered commands
@@ -17,10 +19,10 @@ export class CommandContainer
 
     public register(command: CommandType): void
     {
-        this.commands.set(command.data.name, command);
+        this.commands.set(command.name, command);
     }
 
-    public get(name: string): CommandType
+    public get(name: string): CommandType | undefined
     {
         return this.commands.get(name);
     }

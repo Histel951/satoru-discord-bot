@@ -1,7 +1,11 @@
 import { InteractionResponse } from "discord.js";
-import { HandleType, HandlersMap, HandleInteraction } from "./types";
+import { HandleType, HandlersMap } from "../types/HandleTypes";
+import { AllowedInteraction } from "../types/AllowedTypes";
+import { Executable } from "../interfaces/Executable";
+import { ContainerI } from "../interfaces/ContainerI";
+import { Registrable } from "../interfaces/Registrable";
 
-export class HandlersContainer
+export class HandlersContainer implements ContainerI, Executable<AllowedInteraction>, Registrable
 {
     private readonly handlers: HandlersMap;
 
@@ -10,18 +14,24 @@ export class HandlersContainer
         this.handlers = new Map();
     }
 
-    public register(key: string, handler: HandleType): void
+    public register(key: string, handler: HandleType | any): void
     {
         this.handlers.set(key, handler);
     }
 
-    public get(key: string): HandleType
+    public get(key: string): HandleType | undefined
     {
         return this.handlers.get(key);
     }
 
-    public execute(key: string, interaction: HandleInteraction): Promise<void|InteractionResponse>
+    public async execute(interaction: AllowedInteraction): Promise<void|InteractionResponse>
     {
-        return this.handlers.get(key)(interaction);
+        const handler = this.handlers.get(interaction.customId);
+
+        if (!handler) {
+            return undefined;
+        }
+
+        return handler(interaction)
     }
 }

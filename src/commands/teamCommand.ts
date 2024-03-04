@@ -1,25 +1,25 @@
-import { CommandType } from "./types";
+import { CommandType } from "../types/CommandTypes";
 import {
-    ChatInputCommandInteraction,
-    SlashCommandBuilder,
     ButtonBuilder,
     ButtonStyle,
-    ActionRowBuilder
+    ActionRowBuilder,
+    CommandInteraction,
+    CacheType,
 } from "discord.js";
-import {findPlayerByDiscordId} from "../utils/player";
-import {Types} from "mongoose";
+import { findPlayerByDiscordId } from "../utils/player";
+import {Error} from "mongoose";
+import handleError from "../utils/handleError";
 
 export const TeamCommand: CommandType = {
-    data: new SlashCommandBuilder()
-        .setName('team')
-        .setDescription('Действия связанные с командой'),
-    execute: async (interaction: ChatInputCommandInteraction) => {
+    name: 'team',
+    description: 'Действия связанные с командой',
+    execute: async (interaction: CommandInteraction<CacheType>): Promise<void> => {
         try {
             const player = await findPlayerByDiscordId(interaction.user.id)
 
             const components: ButtonBuilder[] = []
 
-            console.log(player.team.owner)
+            console.log(player?.team?.owner)
 
             const createCommandBtn = new ButtonBuilder()
                 .setCustomId('team-create-btn')
@@ -44,7 +44,7 @@ export const TeamCommand: CommandType = {
                 ephemeral: true
             });
         } catch (error) {
-            console.error(`Error processing team command: ${error.message}`);
+            console.error(`Error processing team command: ${handleError(error as Error)}.`);
 
             // Обработка ошибки и отправка сообщения об ошибке пользователю
             await interaction.reply({

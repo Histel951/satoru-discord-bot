@@ -1,6 +1,6 @@
 import { ButtonInteraction, ModalSubmitInteraction, UserSelectMenuInteraction } from "discord.js";
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from "discord.js";
-import { HandleResponse } from "../containers/types";
+import { HandleResponse } from "../types/HandleTypes";
 import { createTeam } from "../utils/team";
 import { createPlayer, findPlayerByDiscordId } from "../utils/player";
 

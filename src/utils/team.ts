@@ -1,5 +1,6 @@
 import { Player, Team } from "../database/models";
-import { CreateTeamType } from "../types";
+import { CreateTeamType } from "../types/ModelTypes";
+import handleError from "./handleError";
 
 export const createTeam = async ({ discordId, name }: CreateTeamType) => {
     try {
@@ -25,6 +26,6 @@ export const createTeam = async ({ discordId, name }: CreateTeamType) => {
 
         return team;
     } catch (error) {
-        throw new Error(`Failed to create team: ${error.message}`);
+        throw new Error(`Failed to create team: ${handleError(error as Error)}`);
     }
 };

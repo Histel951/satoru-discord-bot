@@ -5,14 +5,17 @@ import {
     Interaction,
     CommandInteraction,
     ComponentType,
+    CollectorFilter,
     ModalSubmitInteraction,
-    ButtonInteraction,
-    CacheType,
-    UserSelectMenuInteraction,
 } from "discord.js";
 import { commands, handlers } from "./containers";
-import 'dotenv/config';
 import "./database/connect";
+import {
+    AllowedCollectorFilterArgumentT,
+    AllowedInteraction,
+    AllowedComponentType,
+} from "./types/AllowedTypes";
+import { Executable } from "./interfaces/Executable";
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
@@ -24,37 +27,40 @@ client.on(Events.ClientReady, (client): void => {
     }
 });
 
-client.on(Events.InteractionCreate, async (interaction: Interaction|CommandInteraction) => {
+const componentTimeout: number = 600000;
+
+const handleMessageComponent = (
+    componentType: AllowedComponentType,
+    executable: Executable<AllowedInteraction>,
+    interaction: Interaction | CommandInteraction,
+    collectorFilter: CollectorFilter<AllowedCollectorFilterArgumentT>
+) => {
+    interaction.channel?.awaitMessageComponent({
+        componentType: componentType,
+        time: componentTimeout,
+        filter: collectorFilter
+    }).then(async (interaction: AllowedInteraction) => {
+        await executable.execute(interaction);
+    });
+};
+
+client.on(Events.InteractionCreate, async (interaction: Interaction | CommandInteraction) => {
     if (!interaction.isChatInputCommand()) return;
 
-    const collectorFilter = i => {
-        return i.user.id === interaction.user.id;
-    };
+    const userFilter: CollectorFilter<AllowedCollectorFilterArgumentT> = i => i.user.id === interaction.user.id;
 
-    interaction.channel.awaitMessageComponent({
-        componentType: ComponentType.Button,
-        time: 600000,
-        filter: collectorFilter
-    }).then(async (interaction: ButtonInteraction<CacheType>) => {
-        return await handlers.execute(interaction.customId, interaction);
-    });
-
-    interaction.channel.awaitMessageComponent({
-        componentType: ComponentType.UserSelect,
-        time: 600000,
-        filter: collectorFilter
-    }).then(async (interaction: UserSelectMenuInteraction<CacheType>) => {
-        return await handlers.execute(interaction.customId, interaction);
-    });
+    handleMessageComponent(ComponentType.Button, handlers, interaction, userFilter);
+    handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
 
     interaction.awaitModalSubmit({
-        time: 600000,
-        filter: collectorFilter
+        time: componentTimeout,
+        filter: userFilter
     }).then(async (interaction: ModalSubmitInteraction) => {
-        return await handlers.execute(interaction.customId, interaction);
+        await handlers.execute(interaction);
     });
 
-    await commands.get(interaction.commandName).execute(interaction);
+    const command = commands.get(interaction.commandName);
+    if (command) await command.execute(interaction);
 });
 
 client.login(process.env.DISCORD_TOKEN);

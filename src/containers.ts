@@ -1,5 +1,5 @@
 import { CommandContainer } from "./containers/CommandContainer";
-import { TeamCommand } from "./commands/TeamCommand";
+import { TeamCommand } from "./commands/teamCommand";
 import { HandlersContainer } from "./containers/HandlersContainer";
 import {
     addMemberToTeamHandler,
@@ -8,10 +8,12 @@ import {
     teamCreateHandler
 } from "./handlers/TeamHandlers";
 
+// Регистрирует команды на сервер
 const commands = new CommandContainer();
 
 commands.register(TeamCommand);
 
+// Регистрирует обработку события [Название события] => [Обработчик]
 const handlers = new HandlersContainer();
 
 handlers.register('team-create-btn', teamCreateHandler);
