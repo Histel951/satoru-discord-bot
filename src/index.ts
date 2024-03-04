@@ -16,6 +16,7 @@ import {
     AllowedComponentType,
 } from "./types/AllowedTypes";
 import { Executable } from "./interfaces/Executable";
+import handleError from "./utils/handleError";
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
@@ -59,8 +60,17 @@ client.on(Events.InteractionCreate, async (interaction: Interaction | CommandInt
         await handlers.execute(interaction);
     });
 
-    const command = commands.get(interaction.commandName);
-    if (command) await command.execute(interaction);
+    try {
+        const command = commands.get(interaction.commandName);
+        if (command) await command.execute(interaction);
+    } catch (e) {
+        console.error(`Error processing "${interaction.commandName}" command: ${handleError(e as Error)}`)
+
+        await interaction.reply({
+            content: 'Произошла ошибка при выполнении команды.',
+            ephemeral: true
+        });
+    }
 });
 
 client.login(process.env.DISCORD_TOKEN);

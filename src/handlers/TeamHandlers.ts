@@ -2,13 +2,13 @@ import { ButtonInteraction, ModalSubmitInteraction, UserSelectMenuInteraction } 
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from "discord.js";
 import { HandleResponse } from "../types/HandleTypes";
 import { createTeam } from "../utils/team";
-import { createPlayer, findPlayerByDiscordId } from "../utils/player";
+import { createUser, findUserByDiscordId } from "../utils/user";
 
 export const teamCreateHandler = async (interaction: ButtonInteraction): HandleResponse => {
-    const player = await findPlayerByDiscordId(interaction.user.id);
+    const player = await findUserByDiscordId(interaction.user.id);
 
     if (!player) {
-        await createPlayer({
+        await createUser({
             discord_id: interaction.user.id,
             team: null,
         });

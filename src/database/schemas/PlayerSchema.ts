@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-export const PlayerSchema = new Schema({
+export default new Schema({
     discord_id: { type: String, require: true },
     team: {
         type: mongoose.Types.ObjectId,
