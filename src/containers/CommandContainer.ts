@@ -1,9 +1,9 @@
 import { CommandCollectionType, CommandType } from "../types/CommandTypes";
 import { Collection } from "discord.js";
 import { Registrable } from "../interfaces/Registrable";
-import { ContainerI } from "../interfaces/ContainerI";
+import { Container } from "../interfaces/Container";
 
-export class CommandContainer implements ContainerI, Registrable
+export class CommandContainer implements Container, Registrable
 {
     /**
      * Registered commands

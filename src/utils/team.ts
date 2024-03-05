@@ -1,14 +1,15 @@
-import { User, Team } from "../database/models";
+import { User, Team, Player } from "../database/models";
 import { CreateTeamType } from "../types/ModelTypes";
 import handleError from "./handleError";
+import { Document } from "mongoose";
 
-export const createTeam = async ({ discordId, name }: CreateTeamType) => {
+export const createTeam = async ({ discordId, name }: CreateTeamType): Promise<Document> => {
     try {
         // Находим игрока по Discord ID
         const user = await User.findOne({ discord_id: discordId }).exec();
 
         if (!user) {
-            throw new Error(`Player with Discord ID ${discordId} not found`);
+            throw new Error(`User with Discord ID "${discordId}" not found`);
         }
 
         // Создаем новую команду с указанным именем и владельцем (игроком)
@@ -20,9 +21,15 @@ export const createTeam = async ({ discordId, name }: CreateTeamType) => {
         // Сохраняем команду
         await team.save();
 
-        // Обновляем информацию о команде у игрока
-        user.team = team.id;
-        await user.save();
+        if (!user.player_id) {
+            const player = new Player({
+                team_id: team.id
+            });
+            await player.save()
+
+            user.player_id = player.id
+            await user.save();
+        }
 
         return team;
     } catch (e) {

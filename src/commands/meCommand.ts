@@ -1,13 +1,15 @@
 import {CommandType} from "../types/CommandTypes";
 import createBtn from "../utils/ui/createBtn";
 import {ActionRowBuilder, ButtonBuilder, ButtonStyle} from "discord.js";
+import {findPlayerByDiscordId} from "../utils/player";
 
 const buttons = [
-    createBtn('me-info', 'Информация', ButtonStyle.Secondary),
+    createBtn({ customId: 'me-info', label: 'Информация', style: ButtonStyle.Secondary }),
+    createBtn({ customId: 'me-dota-id-modal', label: 'Указать id', style: ButtonStyle.Secondary })
 ];
 
 export const meCommand: CommandType = {
-    name: 'Я',
+    name: 'me',
     description: 'Узнать информацию о себе',
     execute: async interaction => {
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(buttons)

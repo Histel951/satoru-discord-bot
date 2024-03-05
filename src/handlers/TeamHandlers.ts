@@ -3,24 +3,25 @@ import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserS
 import { HandleResponse } from "../types/HandleTypes";
 import { createTeam } from "../utils/team";
 import { createUser, findUserByDiscordId } from "../utils/user";
+import createInput from "../utils/ui/createInput";
 
 export const teamCreateHandler = async (interaction: ButtonInteraction): HandleResponse => {
-    const player = await findUserByDiscordId(interaction.user.id);
+    const user = await findUserByDiscordId(interaction.user.id);
 
-    if (!player) {
+    if (!user) {
         await createUser({
             discord_id: interaction.user.id,
-            team: null,
+            player_id: null,
         });
     }
 
-    const commandNameInput = new TextInputBuilder()
-        .setCustomId('team-name-input')
-        .setLabel('Как будет называться команда?')
-        .setValue('TestTeam')
-        .setStyle(TextInputStyle.Short);
+    const teamNameInput = createInput({
+        customId: 'team-name-input',
+        label: 'Как будет называться команда?',
+        style: TextInputStyle.Short,
+    });
 
-    const row = new ActionRowBuilder<TextInputBuilder>().addComponents(commandNameInput);
+    const row = new ActionRowBuilder<TextInputBuilder>().addComponents(teamNameInput);
 
     const modal = new ModalBuilder()
         .setCustomId('create-team-modal')

@@ -1,3 +1,3 @@
-export interface ContainerI {
+export interface Container {
     get: (key: string) => any
 }

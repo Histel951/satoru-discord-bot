@@ -3,12 +3,12 @@ export type CreateTeamType = {
     name: string
 }
 
-export type PlayerT = {
+export type CreateUserT = {
     discord_id: string
-    team: TeamT|null
+    player_id: number | null
 }
 
-export type TeamT = {
+export type CreateTeamT = {
     name: string,
-    owner: PlayerT,
+    owner_id: number | null,
 }

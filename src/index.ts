@@ -38,7 +38,6 @@ const handleMessageComponent = (
 ) => {
     interaction.channel?.awaitMessageComponent({
         componentType: componentType,
-        time: componentTimeout,
         filter: collectorFilter
     }).then(async (interaction: AllowedInteraction) => {
         await executable.execute(interaction);

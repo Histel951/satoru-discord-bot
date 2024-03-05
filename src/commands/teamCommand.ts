@@ -8,9 +8,9 @@ import handleError from "../utils/handleError";
 import createBtn from "../utils/ui/createBtn";
 
 const buttons = [
-    createBtn('team-create-btn', 'Создать команду', ButtonStyle.Success),
-    createBtn('add-members-to-team', 'Добавить участников', ButtonStyle.Secondary),
-    createBtn('team-info-btn', 'Информация', ButtonStyle.Secondary),
+    createBtn({ customId: 'team-create-btn', label: 'Создать команду', style: ButtonStyle.Success }),
+    createBtn({ customId: 'add-members-to-team', label: 'Добавить участников', style: ButtonStyle.Secondary }),
+    createBtn({ customId: 'team-info-btn', label: 'Информация', style: ButtonStyle.Secondary }),
 ];
 
 export const TeamCommand: CommandType = {

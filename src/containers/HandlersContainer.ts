@@ -2,10 +2,10 @@ import { InteractionResponse } from "discord.js";
 import { HandleType, HandlersMap } from "../types/HandleTypes";
 import { AllowedInteraction } from "../types/AllowedTypes";
 import { Executable } from "../interfaces/Executable";
-import { ContainerI } from "../interfaces/ContainerI";
+import { Container } from "../interfaces/Container";
 import { Registrable } from "../interfaces/Registrable";
 
-export class HandlersContainer implements ContainerI, Executable<AllowedInteraction>, Registrable
+export class HandlersContainer implements Container, Executable<AllowedInteraction>, Registrable
 {
     private readonly handlers: HandlersMap;
 

@@ -1,6 +1,7 @@
 import {ButtonBuilder, ButtonStyle} from "discord.js";
+import {CreateBtnT} from "../../types/ui/CreateBtnT";
 
-export default (customId: string, label: string, style: ButtonStyle) => {
+export default ({customId, label, style}: CreateBtnT) => {
     return new ButtonBuilder()
         .setCustomId(customId)
         .setLabel(label)
