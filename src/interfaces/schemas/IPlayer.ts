@@ -1,11 +1,16 @@
 import mongoose from "mongoose";
 
 export interface IPlayer {
-    _id: string
+    _id: mongoose.Types.ObjectId
     team_id: {
         type: mongoose.Types.ObjectId
         ref: string
         default: null
     }
-    dota_id: string
+    account_id: string,
+    personaname: string,
+    plus: boolean,
+    last_login: string|null,
+    rank: number,
+    leaderboard_rank: number|null
 }

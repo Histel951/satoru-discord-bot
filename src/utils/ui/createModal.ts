@@ -1,4 +1,4 @@
-import {CreateModalT} from "../../types/ui/CreateModalT";
+import { CreateModalT } from "../../types/ui/CreateModalT";
 import {
     ActionRowBuilder,
     AnyComponentBuilder,

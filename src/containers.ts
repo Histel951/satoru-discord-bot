@@ -1,34 +1,17 @@
 import { CommandContainer } from "./containers/CommandContainer";
-import { TeamCommand } from "./commands/teamCommand";
-import { meCommand } from "./commands/meCommand";
 import { HandlersContainer } from "./containers/HandlersContainer";
-import {
-    addMemberToTeamHandler,
-    createTeamHandler,
-    submitTeamMembersHandler,
-    teamCreateHandler
-} from "./handlers/TeamHandlers";
-import meInfoHandler from "./handlers/me/meInfoHandler";
-import useDotaIdScenarios from "./scenarios/useDotaIdScenarios";
+import { registerCommand } from "./commands/registerCommand";
+import sendDotaId from "./handlers/registration/sendDotaId";
 
 // Регистрирует команды на сервер
 const commands = new CommandContainer();
 
-commands.register(TeamCommand);
-commands.register(meCommand)
+commands.register(registerCommand)
 
 // Регистрирует обработку события [Название события] => [Обработчик]
 const handlers = new HandlersContainer();
 
-handlers.register('team-create-btn', teamCreateHandler);
-handlers.register('create-team-modal', createTeamHandler);
-
-handlers.register('add-members-to-team', addMemberToTeamHandler);
-handlers.register('submit-members-to-team', submitTeamMembersHandler);
-
-handlers.register('me-info', meInfoHandler)
-
-useDotaIdScenarios(handlers)
+handlers.register('player-registration', sendDotaId)
 
 export {
     commands,

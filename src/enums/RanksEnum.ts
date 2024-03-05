@@ -1,4 +1,6 @@
 export enum RanksEnum {
+    // @ts-ignore
+    "Uncalibrated" = null,
     "Herald I" = 11,
     "Herald II",
     "Herald III",
@@ -34,7 +36,7 @@ export enum RanksEnum {
     "Divine III",
     "Divine IV",
     "Divine V",
-    "Titan" = 81,
+    "Titan" = 80,
 }
 
 export type RanksT = keyof typeof RanksEnum

@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export type CreateTeamType = {
     discordId: string
     name: string
@@ -5,7 +7,7 @@ export type CreateTeamType = {
 
 export type CreateUserT = {
     discord_id: string
-    player_id: number | null
+    player_id: mongoose.Types.ObjectId | null
 }
 
 export type CreateTeamT = {

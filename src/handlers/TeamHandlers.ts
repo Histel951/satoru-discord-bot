@@ -1,12 +1,16 @@
+// Оставил как пример
 import { ButtonInteraction, ModalSubmitInteraction, UserSelectMenuInteraction } from "discord.js";
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from "discord.js";
 import { HandleResponse } from "../types/HandleTypes";
 import { createTeam } from "../utils/team";
-import { createUser, findUserByDiscordId } from "../utils/user";
+import { createUser } from "../utils/user";
 import createInput from "../utils/ui/createInput";
+import {User} from "../database/models";
 
 export const teamCreateHandler = async (interaction: ButtonInteraction): HandleResponse => {
-    const user = await findUserByDiscordId(interaction.user.id);
+    const user = await User.findOne({
+        discord_id: interaction.user.id
+    }).exec();
 
     if (!user) {
         await createUser({

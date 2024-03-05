@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IUser {
-    _id: string
+    _id: mongoose.Types.ObjectId
     discord_id: string
     player_id: {
         type: typeof mongoose.Types.ObjectId
