@@ -9,7 +9,7 @@ export const registerCommand: CommandType = {
     execute: interaction => {
         const dotaIdInput = createInput({
             customId: 'input-dota-profile-id',
-            label: 'Укажите id профиля доты 2:',
+            label: 'Укажите id профиля доты:',
             style: TextInputStyle.Short,
         });
 

@@ -3,6 +3,7 @@ import showPlayerInfo from "../../utils/me/showPlayerInfo";
 import updatePlayerInfo from "../../utils/dota/updatePlayerInfo";
 import addRankRole from "../../utils/dota/addRankRole";
 import addRoleByName from "../../utils/addRoleByName";
+import { RolesEnum } from "../../enums/RolesEnum";
 
 export default async (interaction: ModalSubmitInteraction) => {
     try {
@@ -13,7 +14,7 @@ export default async (interaction: ModalSubmitInteraction) => {
 
         if (member) {
             await addRankRole(member, player.rank, interaction.guild?.roles as RoleManager);
-            await addRoleByName(member, 'approved', interaction.guild?.roles as RoleManager);
+            await addRoleByName(member, RolesEnum.Approved, interaction.guild?.roles as RoleManager);
         }
 
         await interaction.reply({ content: showPlayerInfo(playerInfo), ephemeral: true });

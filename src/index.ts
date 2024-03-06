@@ -7,6 +7,7 @@ import {
     ComponentType,
     CollectorFilter,
     ModalSubmitInteraction,
+    GuildMember,
 } from "discord.js";
 import { commands, handlers } from "./containers";
 import "./database/connect";
@@ -17,9 +18,15 @@ import {
 } from "./types/AllowedTypes";
 import { Executable } from "./interfaces/Executable";
 import handleError from "./utils/handleError";
+import { RolesEnum } from "./enums/RolesEnum";
+import addRoleByName from "./utils/addRoleByName";
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
+    ]
 });
 
 client.on(Events.ClientReady, (client): void => {
@@ -70,6 +77,15 @@ client.on(Events.InteractionCreate, async (interaction: Interaction | CommandInt
             content: 'Произошла ошибка при выполнении команды.',
             ephemeral: true
         });
+    }
+});
+
+client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
+    try {
+        // Выдача роли новому пользователю
+        await addRoleByName(member, RolesEnum.Unproved, member.guild.roles)
+    } catch (e) {
+        console.log(`Ошибка при выдаче роли: ${handleError(e as Error)}`)
     }
 });
 
