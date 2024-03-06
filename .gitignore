@@ -1,5 +1,5 @@
 .idea
-build
+dist
 .env
 config.json
 node_modules
