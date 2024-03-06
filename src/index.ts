@@ -69,9 +69,9 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
         const interactionMiddleware: CommandInteraction | InteractionResponse | undefined = await command.middleware?.(interaction);
 
         if (interactionMiddleware instanceof CommandInteraction) {
-            const message = await command.execute(interaction);
+            const message = await command.execute(interactionMiddleware);
 
-            interaction.awaitModalSubmit({
+            interactionMiddleware.awaitModalSubmit({
                 time: componentTimeout,
                 filter: userFilter
             }).then(async (interaction: ModalSubmitInteraction) => {
