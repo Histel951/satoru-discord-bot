@@ -3,14 +3,11 @@ import {
     GatewayIntentBits,
     Events,
     Interaction,
-    CommandInteraction,
     ComponentType,
     CollectorFilter,
-    ModalSubmitInteraction,
     GuildMember,
-    InteractionResponse,
 } from "discord.js";
-import { commands, handlers } from "./containers";
+import { handlers } from "./containers";
 import "./database/connect";
 import {
     AllowedCollectorFilterArgumentT,
@@ -72,4 +69,6 @@ client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN).catch(e => {
+    console.error(e)
+});
