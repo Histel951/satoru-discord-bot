@@ -58,14 +58,12 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     await commandPlugin(interaction);
 });
 
-
-
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     try {
         // Выдача роли новому пользователю
         await addRoleByName(member, RolesEnum.Unproved, member.guild.roles)
     } catch (e) {
-        console.log(`Ошибка при выдаче роли: ${handleError(e as Error)}`)
+        console.error(`Ошибка при выдаче роли: ${handleError(e as Error)}`)
     }
 });
 
