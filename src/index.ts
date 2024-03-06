@@ -21,6 +21,7 @@ import { Executable } from "./interfaces/Executable";
 import handleError from "./utils/handleError";
 import { RolesEnum } from "./enums/RolesEnum";
 import addRoleByName from "./utils/addRoleByName";
+import commandPlugin from "./plugins/commandPlugin";
 
 const client = new Client({
     intents: [
@@ -36,8 +37,6 @@ client.on(Events.ClientReady, (client): void => {
     }
 });
 
-const componentTimeout: number = 600000;
-
 const handleMessageComponent = (
     componentType: AllowedComponentType,
     executable: Executable<AllowedInteraction>,
@@ -46,7 +45,7 @@ const handleMessageComponent = (
 ) => {
     interaction.channel?.awaitMessageComponent({
         componentType: componentType,
-        time: componentTimeout,
+        time: 600000,
         filter: collectorFilter
     }).then(async (interaction: AllowedInteraction) => {
         await executable.execute(interaction);
@@ -59,26 +58,7 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     handleMessageComponent(ComponentType.Button, handlers, interaction, userFilter);
     handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
 
-    if (interaction.isCommand()) {
-        const command = commands.get(interaction.commandName);
-
-        if (!command) {
-            return;
-        }
-
-        const interactionMiddleware: CommandInteraction | InteractionResponse | undefined = await command.middleware?.(interaction);
-
-        if (interactionMiddleware instanceof CommandInteraction) {
-            const message = await command.execute(interactionMiddleware);
-
-            interactionMiddleware.awaitModalSubmit({
-                time: componentTimeout,
-                filter: userFilter
-            }).then(async (interaction: ModalSubmitInteraction) => {
-                await handlers.execute(interaction);
-            });
-        }
-    }
+    await commandPlugin(interaction);
 });
 
 
