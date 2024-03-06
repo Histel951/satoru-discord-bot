@@ -36,7 +36,7 @@ export enum RanksEnum {
     "Divine III",
     "Divine IV",
     "Divine V",
-    "Titan" = 80,
+    "Immortal" = 80,
 }
 
 export type RanksT = keyof typeof RanksEnum

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface IPlayer {
     _id: mongoose.Types.ObjectId
+    discord_id: string
     team_id: {
         type: mongoose.Types.ObjectId
         ref: string

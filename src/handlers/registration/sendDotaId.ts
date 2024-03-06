@@ -1,25 +1,19 @@
-import { ModalSubmitInteraction } from "discord.js";
-import { Player } from "../../database/models";
+import { ModalSubmitInteraction, RoleManager } from "discord.js";
 import showPlayerInfo from "../../utils/me/showPlayerInfo";
 import updatePlayerInfo from "../../utils/dota/updatePlayerInfo";
-import { createUser } from "../../utils/user";
-import { User } from "../../database/models";
+import addRankRole from "../../utils/dota/addRankRole";
+import addRoleByName from "../../utils/addRoleByName";
 
 export default async (interaction: ModalSubmitInteraction) => {
     try {
         const dotaId = interaction.fields.getTextInputValue('input-dota-profile-id');
-        const [playerInfo, player] = await updatePlayerInfo(dotaId);
+        const [playerInfo, player] = await updatePlayerInfo(interaction.user.id, dotaId);
 
-        let user = await User.findOne({ discord_id: interaction.user.id });
+        const member = await interaction.guild?.members.fetch(interaction.user.id);
 
-        if (!user) {
-            await createUser({
-                discord_id: interaction.user.id,
-                player_id: player._id,
-            });
-        } else {
-            await Player.deleteOne({ _id: player._id });
-            await User.updateOne({ discord_id: interaction.user.id }, { player_id: player._id });
+        if (member) {
+            await addRankRole(member, player.rank, interaction.guild?.roles as RoleManager);
+            await addRoleByName(member, 'approved', interaction.guild?.roles as RoleManager);
         }
 
         await interaction.reply({ content: showPlayerInfo(playerInfo), ephemeral: true });
