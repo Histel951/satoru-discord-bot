@@ -1,8 +1,8 @@
 import { PlayerInfoT } from "../../types/dota/PlayerInfoT";
 
 export default (playerInfo: PlayerInfoT): string => {
-    return `Данные об игроке обновились: 
-
+    return `
 **Имя**: \`${playerInfo.personaname}\`
-**Ранг**: \`${playerInfo.rank}\``;
+**Ранг**: \`${playerInfo.rank}\`
+**Dota ID**: \`${playerInfo.account_id}\``;
 }

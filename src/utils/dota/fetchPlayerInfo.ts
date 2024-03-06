@@ -8,9 +8,8 @@ export default async (dotaId: number|string): Promise<PlayerInfoT> => {
     const { data } = await openDotaAxios.get<PlayerDotaInfoResponseT>(`/players/${dotaId}`);
 
     return {
-        account_id: data.profile.account_id,
+        account_id: String(data.profile.account_id),
         personaname: data.profile.personaname,
-        name: data.profile.name,
         plus: data.profile.plus,
         last_login: data.profile.last_login,
         rank: getRankName(data.rank_tier) as RanksT,

@@ -8,6 +8,7 @@ import {
     CollectorFilter,
     ModalSubmitInteraction,
     GuildMember,
+    InteractionResponse,
 } from "discord.js";
 import { commands, handlers } from "./containers";
 import "./database/connect";
@@ -40,7 +41,7 @@ const componentTimeout: number = 600000;
 const handleMessageComponent = (
     componentType: AllowedComponentType,
     executable: Executable<AllowedInteraction>,
-    interaction: Interaction | CommandInteraction,
+    interaction: Interaction,
     collectorFilter: CollectorFilter<AllowedCollectorFilterArgumentT>
 ) => {
     interaction.channel?.awaitMessageComponent({
@@ -52,33 +53,35 @@ const handleMessageComponent = (
     });
 };
 
-client.on(Events.InteractionCreate, async (interaction: Interaction | CommandInteraction) => {
-    if (!interaction.isChatInputCommand()) return;
-
+client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     const userFilter: CollectorFilter<AllowedCollectorFilterArgumentT> = i => i.user.id === interaction.user.id;
 
     handleMessageComponent(ComponentType.Button, handlers, interaction, userFilter);
     handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
 
-    interaction.awaitModalSubmit({
-        time: componentTimeout,
-        filter: userFilter
-    }).then(async (interaction: ModalSubmitInteraction) => {
-        await handlers.execute(interaction);
-    });
-
-    try {
+    if (interaction.isCommand()) {
         const command = commands.get(interaction.commandName);
-        if (command) await command.execute(interaction);
-    } catch (e) {
-        console.error(`Error processing "${interaction.commandName}" command: ${handleError(e as Error)}`)
 
-        await interaction.reply({
-            content: 'Произошла ошибка при выполнении команды.',
-            ephemeral: true
-        });
+        if (!command) {
+            return;
+        }
+
+        const interactionMiddleware: CommandInteraction | InteractionResponse | undefined = await command.middleware?.(interaction);
+
+        if (interactionMiddleware instanceof CommandInteraction) {
+            const message = await command.execute(interaction);
+
+            interaction.awaitModalSubmit({
+                time: componentTimeout,
+                filter: userFilter
+            }).then(async (interaction: ModalSubmitInteraction) => {
+                await handlers.execute(interaction);
+            });
+        }
     }
 });
+
+
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     try {

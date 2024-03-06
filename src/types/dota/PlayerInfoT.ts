@@ -1,11 +1,10 @@
 import {RanksEnum, RanksT} from "../../enums/RanksEnum";
 
 export type PlayerInfoT = {
-    account_id: number,
+    account_id: string,
     personaname: string,
-    name: string|null,
     plus: boolean,
-    last_login: string,
-    rank: RanksT,
+    last_login: string|null,
+    rank: RanksT|string|null,
     leaderboard_rank: number|null
 }
