@@ -2,8 +2,9 @@ import { ModalSubmitInteraction, RoleManager } from "discord.js";
 import showPlayerInfo from "../../utils/me/showPlayerInfo";
 import updatePlayerInfo from "../../utils/dota/updatePlayerInfo";
 import addRankRole from "../../utils/dota/addRankRole";
-import addRoleByName from "../../utils/addRoleByName";
+import addRoleByName from "../../utils/roles/addRoleByName";
 import { RolesEnum } from "../../enums/RolesEnum";
+import removeRoleByName from "../../utils/roles/removeRoleByName";
 
 export default async (interaction: ModalSubmitInteraction) => {
     try {
@@ -15,6 +16,7 @@ export default async (interaction: ModalSubmitInteraction) => {
         if (member) {
             await addRankRole(member, player.rank, interaction.guild?.roles as RoleManager);
             await addRoleByName(member, RolesEnum.Approved, interaction.guild?.roles as RoleManager);
+            await removeRoleByName(member, RolesEnum.Unproved, interaction.guild?.roles as RoleManager)
         }
 
         await interaction.reply({ content: showPlayerInfo(playerInfo), ephemeral: true });

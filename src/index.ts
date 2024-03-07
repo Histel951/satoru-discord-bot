@@ -17,7 +17,7 @@ import {
 import { Executable } from "./interfaces/Executable";
 import handleError from "./utils/handleError";
 import { RolesEnum } from "./enums/RolesEnum";
-import addRoleByName from "./utils/addRoleByName";
+import addRoleByName from "./utils/roles/addRoleByName";
 import commandPlugin from "./plugins/commandPlugin";
 
 const client = new Client({

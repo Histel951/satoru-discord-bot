@@ -14,6 +14,7 @@ export const registerCommand: CommandType = {
 
         if (member && member.roles.cache.some(role => role.name === RolesEnum.Approved)) {
             const player = await findPlayer(interaction.user.id);
+
             return interaction.reply({
                 content: `Вы уже зарегистрированы как:\n${showPlayerInfo(player)}`,
                 ephemeral: true,
