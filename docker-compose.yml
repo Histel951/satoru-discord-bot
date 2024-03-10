@@ -52,6 +52,5 @@ networks:
         driver: bridge
 
 volumes:
-    node_modules:
     mongodb_data:
         driver: local

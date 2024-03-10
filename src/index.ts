@@ -56,6 +56,10 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
 
     await commandPlugin(interaction);
+
+    if (interaction.isModalSubmit()) {
+        await handlers.execute(interaction);
+    }
 });
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {

@@ -1,4 +1,4 @@
-import {GuildMember, Role, RoleManager} from "discord.js";
+import {GuildMember, RoleManager} from "discord.js";
 import getRankName from "./getRankName";
 import addRoleByName from "../roles/addRoleByName";
 

@@ -10,4 +10,5 @@ export enum RolesEnum {
     Ancient = "Ancient",
     Divine = "Divine",
     Immortal = "Immortal",
+    admin = 'admin'
 }
