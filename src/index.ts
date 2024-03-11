@@ -17,7 +17,7 @@ import {
 import { Executable } from "./interfaces/Executable";
 import handleError from "./utils/handleError";
 import { RolesEnum } from "./enums/RolesEnum";
-import addRoleByName from "./utils/addRoleByName";
+import addRoleByName from "./utils/roles/addRoleByName";
 import commandPlugin from "./plugins/commandPlugin";
 
 const client = new Client({
@@ -56,6 +56,10 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
     handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
 
     await commandPlugin(interaction);
+
+    if (interaction.isModalSubmit()) {
+        await handlers.execute(interaction);
+    }
 });
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
