@@ -8,7 +8,6 @@ import {
     GuildMember,
 } from "discord.js";
 import { handlers } from "./containers";
-import "./database/connect";
 import {
     AllowedCollectorFilterArgumentT,
     AllowedInteraction,
@@ -29,6 +28,7 @@ const client = new Client({
 });
 
 client.on(Events.ClientReady, (client): void => {
+    console.log('ready');
     if (process.env.ENV === 'prod') {
         console.log(`Logged in as ${client.user.tag}!`);
     }

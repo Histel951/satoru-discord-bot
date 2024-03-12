@@ -19,6 +19,8 @@ services:
             MONGO_HOSTNAME: mongodb
             MONGO_PORT: '${MONGO_PORT:-27017}'
             MONGO_DB: '${MONGO_DB:-satoro_bot}'
+            NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+            DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/home/node/app}'
         ports:
             - "${NODE_PORT:-80}:8080"
         volumes:
@@ -27,7 +29,7 @@ services:
             - bot
         depends_on:
             - mongodb
-        command: '${DOCKER_PROJECT_DIR:-/home/node/app}/docker/node/${NODE_DOCKER_ENV:-20}/wait-for.sh mongodb:${MONGO_PORT:-27017} -- npm run ${ENV:-docker} --prefix ${DOCKER_PROJECT_DIR:-/home/node/app}'
+        command: '${DOCKER_PROJECT_DIR:-/home/node/app}/cmd/run-envs/${ENV:-docker}.sh'
 
     mongodb:
         image: mongo:latest

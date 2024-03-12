@@ -6,6 +6,8 @@ mongoose.connect(
         user: process.env.MONGO_USERNAME,
         pass: process.env.MONGO_PASSWORD,
         dbName: process.env.MONGO_DB,
+        socketTimeoutMS: 30000,
+        connectTimeoutMS: 30000,
     }
 );
 

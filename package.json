@@ -6,8 +6,7 @@
   "scripts": {
     "build": "cmd/build.sh",
     "prod": "npm run build && node build/index.js && ENV=prod",
-    "dev": "nodemon src/index.ts",
-    "docker": "nodemon --legacy-watch src/index.ts",
+    "dev": "npx nodemon --legacy-watch src/index.ts",
     "command-deploy": "npm run build && node dist/command-deploy.js"
   },
   "keywords": [],
@@ -24,7 +23,7 @@
     "@types/axios": "^0.14.0",
     "@types/node": "^20.10.1",
     "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
     "typescript": "^5.3.2"
   }
