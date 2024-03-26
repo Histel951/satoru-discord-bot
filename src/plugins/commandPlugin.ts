@@ -1,9 +1,49 @@
 import {
     CommandInteraction,
-    Interaction,
-    InteractionResponse,
+    Interaction, InteractionReplyOptions,
 } from "discord.js";
-import {commands} from "../containers";
+import { commands } from "../containers";
+import { MiddlewareResult, MiddlewareType } from "../types/MiddlewareTypes";
+import { CommandType } from "../types/CommandTypes";
+
+const middlewareExecute = async (
+    interaction: CommandInteraction,
+    middleware: MiddlewareType<CommandInteraction> | MiddlewareType<CommandInteraction>[] | undefined
+): Promise<MiddlewareResult<CommandInteraction>> => {
+
+    let resultExecuting: MiddlewareResult<CommandInteraction> = {
+        result: true,
+        interaction
+    };
+
+    if (middleware instanceof Array) {
+        for (const executedMiddleware of middleware) {
+            resultExecuting = await executedMiddleware(interaction);
+
+            if (!resultExecuting.result) {
+                return resultExecuting;
+            }
+        }
+
+        return resultExecuting;
+    }
+
+    if (middleware instanceof Function) {
+        return middleware(interaction);
+    }
+
+    return resultExecuting;
+}
+
+const executeWithMiddleware = async (interaction: CommandInteraction, command: CommandType<CommandInteraction>) => {
+    const interactionMiddleware = await middlewareExecute(interaction, command.middleware)
+
+    if (interactionMiddleware.result) {
+        await command.execute(interactionMiddleware.interaction);
+    } else {
+        await interactionMiddleware.interaction.reply(interactionMiddleware?.options as InteractionReplyOptions);
+    }
+}
 
 export default async (interaction: Interaction): Promise<void> => {
     if (interaction.isCommand()) {
@@ -13,10 +53,8 @@ export default async (interaction: Interaction): Promise<void> => {
             return;
         }
 
-        const interactionMiddleware: CommandInteraction | InteractionResponse | undefined = await command.middleware?.(interaction);
-
-        if (interactionMiddleware instanceof CommandInteraction) {
-            await command.execute(interactionMiddleware);
-        }
+        command.middleware
+            ? await executeWithMiddleware(interaction, command)
+            : await command.execute(interaction);
     }
 }

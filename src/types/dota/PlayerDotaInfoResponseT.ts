@@ -1,4 +1,4 @@
-export type PlayerDotaInfoResponseT = {
+export type PlayerDotaResponseT = {
     profile: {
         account_id: number,
         personaname: string,
@@ -19,4 +19,4 @@ export type PlayerDotaInfoResponseT = {
     }
     rank_tier: number,
     leaderboard_rank: number|null
-}
+};

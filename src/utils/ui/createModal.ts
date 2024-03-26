@@ -12,11 +12,11 @@ export default <ComponentBuilderType extends AnyComponentBuilder>({ customId, ti
         .setTitle(title)
 
     if (rows) {
-        const actionRow = new ActionRowBuilder<ComponentBuilderType>()
-            .addComponents(...(rows as ComponentBuilderType[]));
+        const componentRows = [...(rows as ComponentBuilderType[])].map(
+            row => new ActionRowBuilder<ComponentBuilderType>().addComponents(row));
 
         // @ts-ignore
-        modal.addComponents(actionRow);
+        modal.addComponents(componentRows);
     }
 
     return modal;

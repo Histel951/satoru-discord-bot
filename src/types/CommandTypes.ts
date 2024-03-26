@@ -2,20 +2,24 @@ import {
     BaseInteraction,
     Collection,
     CommandInteraction,
-    InteractionResponse, SlashCommandStringOption,
+    InteractionResponse,
+    SlashCommandStringOption,
 } from "discord.js";
+import { MiddlewareType } from "./MiddlewareTypes";
 
 type optionBuilder = (option: SlashCommandStringOption) => SlashCommandStringOption;
 
-export type CommandType = {
+export type ExecutedType = (interaction: CommandInteraction) => Promise<InteractionResponse<boolean>|void>
+
+export type CommandType<InteractionType extends BaseInteraction> = {
     name: string
     description: string
     options?: optionBuilder[]
-    execute: (interaction: CommandInteraction) => Promise<InteractionResponse|void>
-    middleware?: (interaction: CommandInteraction) => Promise<CommandInteraction | InteractionResponse>
+    execute: ExecutedType
+    middleware?: MiddlewareType<InteractionType> | MiddlewareType<InteractionType>[]
 };
 
-export type CommandCollectionType = Collection<
+export type CommandCollectionType<InteractionType extends BaseInteraction> = Collection<
     string,
-    CommandType
+    CommandType<InteractionType>
 >;
