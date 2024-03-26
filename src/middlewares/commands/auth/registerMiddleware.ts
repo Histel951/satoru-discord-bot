@@ -7,7 +7,6 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
     const player = await findPlayer(interaction.user.id);
 
     if (player) {
-
         return {
             result: false,
             interaction,
