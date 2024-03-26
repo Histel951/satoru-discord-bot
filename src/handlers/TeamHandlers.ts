@@ -39,7 +39,7 @@ export const createTeamHandler = async (interaction: ModalSubmitInteraction): Ha
     const teamName = interaction.fields.getTextInputValue('team-name-input');
 
     await createTeam({
-        discordId: interaction.user.id,
+        discord_id: interaction.user.id,
         name: teamName
     });
 

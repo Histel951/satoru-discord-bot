@@ -7,7 +7,7 @@
     "build": "cmd/build.sh",
     "prod": "npm run build && node build/index.js && ENV=prod",
     "dev": "npx nodemon --legacy-watch src/index.ts",
-    "command-deploy": "npm run build && node dist/command-deploy.js"
+    "command-deploy": "node dist/command-deploy.js"
   },
   "keywords": [],
   "author": "",

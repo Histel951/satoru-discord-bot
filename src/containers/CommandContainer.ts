@@ -1,5 +1,5 @@
 import { CommandCollectionType, CommandType } from "../types/CommandTypes";
-import { Collection } from "discord.js";
+import {Collection, CommandInteraction} from "discord.js";
 import { Registrable } from "../interfaces/Registrable";
 import { Container } from "../interfaces/Container";
 
@@ -10,24 +10,24 @@ export class CommandContainer implements Container, Registrable
      *
      * @private
      */
-    private readonly commands: CommandCollectionType;
+    private readonly commands: CommandCollectionType<CommandInteraction>;
 
     constructor()
     {
         this.commands = new Collection();
     }
 
-    public register(command: CommandType): void
+    public register(command: CommandType<CommandInteraction>): void
     {
         this.commands.set(command.name, command);
     }
 
-    public get(name: string): CommandType | undefined
+    public get(name: string): CommandType<CommandInteraction> | undefined
     {
         return this.commands.get(name);
     }
 
-    public getAll(): CommandCollectionType
+    public getAll(): CommandCollectionType<CommandInteraction>
     {
         return this.commands;
     }
