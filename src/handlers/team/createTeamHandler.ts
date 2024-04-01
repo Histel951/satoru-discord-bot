@@ -1,5 +1,5 @@
 import {Colors, GuildMember, ModalSubmitInteraction} from "discord.js";
-import { createTeam } from "../../utils/team";
+import createTeam from "../../utils/team/createTeam";
 import addRoleByName from "../../utils/roles/addRoleByName";
 import getCurrentMember from "../../utils/members/getCurrentMember";
 import getRandomValue from "../../utils/getRandomValue";
@@ -25,7 +25,6 @@ export default async (interaction: ModalSubmitInteraction): Promise<void> => {
         color: getRandomValue(Colors),
         reason: `Создание команды ${teamName}`
     });
-    await addRoleByName(member, teamName, member.guild.roles);
 
     await interaction.reply({ content: `Команда ${teamName} создана!`, ephemeral: true });
 }

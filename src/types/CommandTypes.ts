@@ -9,7 +9,7 @@ import { MiddlewareType } from "./MiddlewareTypes";
 
 type optionBuilder = (option: SlashCommandStringOption) => SlashCommandStringOption;
 
-export type ExecutedType = (interaction: CommandInteraction) => Promise<InteractionResponse<boolean>|void>
+export type ExecutedType = (interaction: CommandInteraction, options: any) => Promise<InteractionResponse|void>
 
 export type CommandType<InteractionType extends BaseInteraction> = {
     name: string

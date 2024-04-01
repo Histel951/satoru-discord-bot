@@ -1,10 +1,10 @@
-import { User, Team, Player } from "../database/models";
-import { CreateTeamT } from "../types/ModelTypes";
-import handleError from "./handleError";
+import { CreateTeamT } from "../../types/ModelTypes";
+import { ITeam } from "../../interfaces/schemas/ITeam";
 import { Document } from "mongoose";
-import { ITeam } from "../interfaces/schemas/ITeam";
+import { Player, Team } from "../../database/models";
+import handleError from "../handleError";
 
-export const createTeam = async ({ discord_id, name }: CreateTeamT): Promise<ITeam & Document | null> => {
+export default async ({ discord_id, name }: CreateTeamT): Promise<ITeam & Document | null> => {
     try {
         // Находим игрока по Discord ID
         const player = await Player.findOne({ discord_id }).exec();
@@ -29,4 +29,4 @@ export const createTeam = async ({ discord_id, name }: CreateTeamT): Promise<ITe
     } catch (e) {
         throw new Error(`Failed to create team: ${handleError(e as Error)}.`);
     }
-};
+}

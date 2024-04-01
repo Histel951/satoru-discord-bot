@@ -8,7 +8,7 @@ export const unRegisterCommand: CommandType<CommandInteraction> = {
     options: [
         option =>
         option.setName('tag')
-            .setDescription('Тэг пользователя из имя#тэг.')
+            .setDescription('Tag пользователя.')
             .setRequired(true),
     ],
     execute: unRegisterExecute,
