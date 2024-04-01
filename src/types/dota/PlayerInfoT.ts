@@ -1,6 +1,8 @@
-import {RanksEnum, RanksT} from "../../enums/RanksEnum";
+import { RanksT } from "../../enums/RanksEnum";
+import { Types } from "mongoose";
 
 export type PlayerInfoT = {
+    id?: Types.ObjectId,
     account_id: string
     personaname: string
     plus: boolean
