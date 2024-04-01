@@ -19,6 +19,6 @@ const deployCommands = commands.getAll().map(command => {
 
 rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID ?? ''), {
     body: deployCommands
+}).then(() => {
+    console.log("\nCommand deployment was successful!\n");
 });
-
-console.log("\nCommand deployment was successful!\n");

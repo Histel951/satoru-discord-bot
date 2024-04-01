@@ -2,10 +2,10 @@
 import { ButtonInteraction, ModalSubmitInteraction, UserSelectMenuInteraction } from "discord.js";
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from "discord.js";
 import { HandleResponse } from "../types/HandleTypes";
-import { createTeam } from "../utils/team";
+import createTeam from "../utils/team/createTeam";
 import { createUser } from "../utils/user";
 import createInput from "../utils/ui/createInput";
-import {User} from "../database/models";
+import { User } from "../database/models";
 
 export const teamCreateHandler = async (interaction: ButtonInteraction): HandleResponse => {
     const user = await User.findOne({
