@@ -19,5 +19,6 @@ export default async (
 
     return interaction.reply({
         content: `Теперь вы состоите в команде ${team.name}.`,
+        ephemeral: true,
     });
 }
