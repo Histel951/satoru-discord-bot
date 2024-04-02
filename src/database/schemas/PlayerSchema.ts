@@ -31,5 +31,9 @@ export default new Schema<IPlayer & Document>({
     leaderboard_rank: {
         type: Number,
         default: null
+    },
+    role: {
+        type: Number,
+        default: null,
     }
 })

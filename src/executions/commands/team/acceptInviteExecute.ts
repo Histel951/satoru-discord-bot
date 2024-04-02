@@ -11,6 +11,7 @@ export default async (
         discord_id: interaction.user.id,
     }, {
         team_id: team._id,
+        role: invite.role,
     });
 
     await TeamInvite.deleteOne({

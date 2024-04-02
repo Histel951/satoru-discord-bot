@@ -7,6 +7,7 @@ export default new Schema<ITeamInvite & Document>({
         ref: 'Team',
         required: true,
     },
+    role: { type: Number, required: true },
     player_id: {
         type: Types.ObjectId,
         ref: 'Player',
