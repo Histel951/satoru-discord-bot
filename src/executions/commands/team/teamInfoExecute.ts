@@ -5,7 +5,7 @@ import { IPlayer } from "../../../interfaces/schemas/IPlayer";
 import { DotaRolesEnum } from "../../../enums/DotaRolesEnum";
 
 export default async (interaction: CommandInteraction, { team, players }: { team: ITeam & Document, players: IPlayer[] & Document[] }): ExecuteT => {
-    const embed = new EmbedBuilder().setColor('#379C6F')
+    const embed = new EmbedBuilder().setColor(team.color)
         .setThumbnail(team.image_url)
         .setDescription('Состав команды: ')
         .setTitle(team.name);
