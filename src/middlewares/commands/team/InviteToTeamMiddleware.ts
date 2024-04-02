@@ -7,6 +7,7 @@ import {PlayerInfoT} from "../../../types/dota/PlayerInfoT";
 export default async (interaction: CommandInteraction): Promise<MiddlewareResult<CommandInteraction>> => {
     const options = interaction.options;
     const userTag = options.get('tag')?.value as string;
+    const role = options.get('role')?.value as string;
 
     const member = getMemberByTag(userTag, interaction.guild as Guild);
 
@@ -53,6 +54,7 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
             member,
             teamOwner,
             invitedPlayer,
+            role,
         }
     };
 }

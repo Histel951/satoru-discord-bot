@@ -7,10 +7,15 @@ export const inviteToTeamCommand: CommandType<CommandInteraction> = {
     name: 'invite-to-team',
     description: 'Пригласить в команду',
     options: [
-        option =>
-        option.setName('tag')
-        .setDescription('Tag пользователя.')
-        .setRequired(true),
+        tag =>
+            tag.setName('tag')
+                .setDescription('Tag пользователя.')
+                .setRequired(true),
+        role =>
+            role
+                .setName('role')
+                .setDescription('Роль игрока в команде')
+                .setRequired(true)
     ],
     middleware: InviteToTeamMiddleware,
     execute: InviteToTeamExecute,

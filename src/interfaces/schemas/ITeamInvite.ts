@@ -6,6 +6,7 @@ export interface ITeamInvite {
         type: mongoose.Types.ObjectId
         ref: 'Team'
     }
+    role: number,
     player_id: {
         type: mongoose.Types.ObjectId,
         ref: 'Player'

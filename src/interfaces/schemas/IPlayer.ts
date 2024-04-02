@@ -9,6 +9,7 @@ export interface IPlayer {
         default: null
     }
     account_id: string,
+    role: number | null,
     personaname: string,
     plus: boolean,
     last_login: string|null,
