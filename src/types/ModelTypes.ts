@@ -8,5 +8,6 @@ export type CreateUserT = {
 export type CreateTeamT = {
     discord_id: string
     name: string
-    avatar_url?: string
+    image_url?: string
+    color: string | null
 }

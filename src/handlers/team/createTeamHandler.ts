@@ -5,26 +5,22 @@ import getCurrentMember from "../../utils/members/getCurrentMember";
 import getRandomValue from "../../utils/getRandomValue";
 
 export default async (interaction: ModalSubmitInteraction): Promise<void> => {
-    const teamName = interaction.fields.getTextInputValue('input-team-name');
-    const teamAvatarFileUrl = interaction.fields.getTextInputValue('input-file-url');
+    const name = interaction.fields.getTextInputValue('input-team-name');
+    const imageUrl = interaction.fields.getTextInputValue('input-file-url');
+    const color = interaction.fields.getTextInputValue('input-color');
 
     const member = await getCurrentMember(interaction) as GuildMember;
 
     const team = await createTeam({
         discord_id: interaction.user.id,
-        name: teamName,
-        avatar_url: teamAvatarFileUrl,
+        name,
+        image_url: imageUrl,
+        color,
     });
 
     if (!team) {
         throw new Error(`Team not created.`);
     }
 
-    const teamRole = await interaction.guild?.roles.create({
-        name: teamName,
-        color: getRandomValue(Colors),
-        reason: `Создание команды ${teamName}`
-    });
-
-    await interaction.reply({ content: `Команда ${teamName} создана!`, ephemeral: true });
+    await interaction.reply({ content: `Команда ${name} создана!`, ephemeral: true });
 }
