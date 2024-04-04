@@ -6,6 +6,7 @@ import { IPlayer } from "../../../interfaces/schemas/IPlayer";
 import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
 import { ITeam } from "../../../interfaces/schemas/ITeam";
 import teamInviteBtns from "../../../ui-interface/btns/teamInviteBtns";
+import { DotaRolesEnum } from "../../../enums/DotaRolesEnum";
 
 export default async (interaction: CommandInteraction): ExecuteT => {
     const player = await Player.findOne({
@@ -29,6 +30,11 @@ export default async (interaction: CommandInteraction): ExecuteT => {
 
     const teamEmbed = await getTeamInfoEmbed(team);
     teamEmbed.setTitle(`Приглашение в ${team.name}`);
+    teamEmbed.setDescription(`
+    Роль: ${DotaRolesEnum[invite.role]}
+    Средний рейтинг: 4500
+    Состав команды:
+    `);
 
     await interaction.reply({
         embeds: [teamEmbed],

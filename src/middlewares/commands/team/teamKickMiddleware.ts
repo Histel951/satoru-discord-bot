@@ -7,7 +7,7 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
     const options = interaction.options;
     const userTag = options.get('tag')?.value as string;
 
-    const member = getMemberByTag(userTag, interaction.guild as Guild);
+    const member = await getMemberByTag(userTag, interaction.guild as Guild);
 
     if (!member) {
         return {
@@ -26,5 +26,5 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
         options: {
             member,
         }
-    }
+    };
 }

@@ -10,7 +10,7 @@ import { acceptInviteCommand } from "./commands/team/acceptInviteCommand";
 import { teamKickCommand } from "./commands/team/teamKickCommand";
 import { teamInfoCommand } from "./commands/team/teamInfoCommand";
 import { inviteListCommand } from "./commands/team/inviteListCommand";
-import { cancelTeamInvite } from "./handlers/team/teamInviteHandler";
+import { acceptTeamInvite, cancelTeamInvite } from "./handlers/team/teamInviteHandler";
 
 // Регистрирует команды на сервер
 const commands = new CommandContainer();
@@ -30,6 +30,7 @@ const handlers = new HandlersContainer();
 handlers.register('player-registration', sendDotaId)
 handlers.register('create-team-modal', createTeamHandler)
 handlers.register('cancel-team-invite', cancelTeamInvite)
+handlers.register('accept-team-invite', acceptTeamInvite)
 
 export {
     commands,

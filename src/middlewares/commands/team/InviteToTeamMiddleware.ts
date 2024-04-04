@@ -1,4 +1,4 @@
-import {CommandInteraction, Guild} from "discord.js";
+import {CommandInteraction, Guild, GuildMember} from "discord.js";
 import {MiddlewareResult} from "../../../types/MiddlewareTypes";
 import getMemberByTag from "../../../utils/members/getMemberByTag";
 import findPlayer from "../../../utils/dota/findPlayer";
@@ -9,7 +9,7 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
     const userTag = options.get('tag')?.value as string;
     const role = options.get('role')?.value as string;
 
-    const member = getMemberByTag(userTag, interaction.guild as Guild);
+    const member = await getMemberByTag(userTag, interaction.guild as Guild);
 
     if (!member) {
         return {

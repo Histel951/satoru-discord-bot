@@ -4,11 +4,11 @@ import removeRoleByName from "../../../utils/roles/removeRoleByName";
 import { RolesEnum } from "../../../enums/RolesEnum";
 import addRoleByName from "../../../utils/roles/addRoleByName";
 
-export default async (interaction: CommandInteraction): Promise<InteractionResponse<boolean>|void> => {
+export default async (interaction: CommandInteraction): Promise<InteractionResponse|void> => {
     const options = interaction.options;
     const userTag = options.get('tag')?.value as string;
 
-    const member = getMemberByTag(userTag, interaction.guild as Guild);
+    const member = await getMemberByTag(userTag, interaction.guild as Guild);
 
     if (!member) {
         return interaction.reply({
