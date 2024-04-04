@@ -9,6 +9,8 @@ import { inviteToTeamCommand } from "./commands/team/inviteToTeamCommand";
 import { acceptInviteCommand } from "./commands/team/acceptInviteCommand";
 import { teamKickCommand } from "./commands/team/teamKickCommand";
 import { teamInfoCommand } from "./commands/team/teamInfoCommand";
+import { inviteListCommand } from "./commands/team/inviteListCommand";
+import { cancelTeamInvite } from "./handlers/team/teamInviteHandler";
 
 // Регистрирует команды на сервер
 const commands = new CommandContainer();
@@ -20,12 +22,14 @@ commands.register(inviteToTeamCommand)
 commands.register(acceptInviteCommand)
 commands.register(teamKickCommand)
 commands.register(teamInfoCommand)
+commands.register(inviteListCommand)
 
 // Регистрирует обработку события [Название события] => [Обработчик]
 const handlers = new HandlersContainer();
 
 handlers.register('player-registration', sendDotaId)
 handlers.register('create-team-modal', createTeamHandler)
+handlers.register('cancel-team-invite', cancelTeamInvite)
 
 export {
     commands,

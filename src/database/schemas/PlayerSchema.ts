@@ -1,10 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, Document, Types } from "mongoose";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
 
 export default new Schema<IPlayer & Document>({
     discord_id: { type: String, required: true },
     team_id: {
-        type: mongoose.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Team',
         default: null,
     },

@@ -7,6 +7,7 @@ import { IPlayer } from "../interfaces/schemas/IPlayer";
 import { ITeam } from "../interfaces/schemas/ITeam";
 import { ITeamInvite } from "../interfaces/schemas/ITeamInvite";
 import TeamInviteSchema from "./schemas/TeamInviteSchema";
+import { Document } from "mongoose";
 
 export const Team = satoroBotDb.model<ITeam & Document>('Team', TeamSchema);
 export const User = satoroBotDb.model<IUser & Document>('User', UserSchema);

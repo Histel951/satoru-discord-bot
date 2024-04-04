@@ -8,8 +8,13 @@ mongoose.connect(
         dbName: process.env.MONGO_DB,
         socketTimeoutMS: 30000,
         connectTimeoutMS: 30000,
+        family: 4,
+        maxPoolSize: 10,
+        autoIndex: false,
     }
-);
+).then(() => {
+    console.log('mongoose connect.')
+});
 
 export const satoroBotDb = mongoose.connection;
 

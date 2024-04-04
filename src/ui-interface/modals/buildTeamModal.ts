@@ -1,6 +1,6 @@
-import createInput from "../utils/ui/createInput";
+import createInput from "../../utils/ui/createInput";
 import { ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
-import createModal from "../utils/ui/createModal";
+import createModal from "../../utils/ui/createModal";
 
 export default (): ModalBuilder => createModal<TextInputBuilder>({
     customId: 'create-team-modal',

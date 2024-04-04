@@ -1,4 +1,4 @@
-import { Schema, Types } from "mongoose";
+import { Schema, Types, Document } from "mongoose";
 import { ITeamInvite } from "../../interfaces/schemas/ITeamInvite";
 
 export default new Schema<ITeamInvite & Document>({
