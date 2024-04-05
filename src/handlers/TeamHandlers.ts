@@ -38,10 +38,10 @@ export const teamCreateHandler = async (interaction: ButtonInteraction): HandleR
 export const createTeamHandler = async (interaction: ModalSubmitInteraction): HandleResponse => {
     const teamName = interaction.fields.getTextInputValue('team-name-input');
 
-    await createTeam({
-        discord_id: interaction.user.id,
-        name: teamName
-    });
+    // await createTeam({
+    //     discord_id: interaction.user.id,
+    //     name: teamName
+    // });
 
     return interaction.reply({ content: `Команда "${teamName}" создана`, ephemeral: true });
 };

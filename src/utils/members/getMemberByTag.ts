@@ -1,3 +1,4 @@
 import { Guild } from "discord.js";
 
-export default (tag: string, guild: Guild) => guild.members.cache.find(member => member.user.tag === tag);
+export default async (tag: string, guild: Guild) =>
+    (await guild.members.fetch())?.find(member => member.user.tag === tag) ?? undefined;

@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
+import { IPlayer } from "./IPlayer";
+import { ITeam } from "./ITeam";
 
 export interface ITeamInvite {
     _id: mongoose.Types.ObjectId
-    team_id: {
+    team_id: ITeam | {
         type: mongoose.Types.ObjectId
         ref: 'Team'
     }
-    role: number,
+    role: 1 | 2 | 3 | 4 | 5
     player_id: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Player'
-    }
+        type: mongoose.Types.ObjectId
+        ref: 'Team'
+    } | IPlayer
 }

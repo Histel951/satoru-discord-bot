@@ -3,6 +3,7 @@ import fetchPlayerInfo from "./fetchPlayerInfo";
 import { Player } from "../../database/models";
 import getRankName from "./getRankName";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
+import { Document } from "mongoose";
 
 export default async (discordId: string, dotaId: number | string): Promise<[PlayerInfoT, IPlayer & Document]> => {
     const playerInfo = await fetchPlayerInfo(dotaId);

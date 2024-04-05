@@ -1,5 +1,5 @@
 import { CommandInteraction, InteractionResponse } from "discord.js";
-import buildTeamModal from "../../../modals/buildTeamModal";
+import buildTeamModal from "../../../ui-interface/modals/buildTeamModal";
 
 export default async (interaction: CommandInteraction): Promise<InteractionResponse|void> =>
     interaction.showModal(buildTeamModal())
