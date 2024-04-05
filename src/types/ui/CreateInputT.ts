@@ -6,4 +6,6 @@ export type CreateInputT = {
     style: TextInputStyle
     value?: string | ''
     required?: boolean
+    minLength?: number | null
+    maxLength?: number | null
 }

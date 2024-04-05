@@ -5,7 +5,7 @@ import getRankName from "./getRankName";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
 import { Document } from "mongoose";
 
-export default async (discordId: string, dotaId: number | string): Promise<[PlayerInfoT, IPlayer & Document]> => {
+export default async (discordId: string, dotaId: number | string): Promise<IPlayer & Document> => {
     const playerInfo = await fetchPlayerInfo(dotaId);
 
     const player = await Player.findOneAndUpdate(
@@ -21,5 +21,5 @@ export default async (discordId: string, dotaId: number | string): Promise<[Play
         { upsert: true, new: true }
     ).exec();
 
-    return [playerInfo, player];
+    return player;
 };
