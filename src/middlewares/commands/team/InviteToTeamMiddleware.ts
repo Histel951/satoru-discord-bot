@@ -1,8 +1,7 @@
-import {CommandInteraction, Guild, GuildMember} from "discord.js";
-import {MiddlewareResult} from "../../../types/MiddlewareTypes";
+import { CommandInteraction, Guild } from "discord.js";
+import { MiddlewareResult } from "../../../types/MiddlewareTypes";
 import getMemberByTag from "../../../utils/members/getMemberByTag";
-import findPlayer from "../../../utils/dota/findPlayer";
-import {PlayerInfoT} from "../../../types/dota/PlayerInfoT";
+import { Player } from "../../../database/models";
 
 export default async (interaction: CommandInteraction): Promise<MiddlewareResult<CommandInteraction>> => {
     const options = interaction.options;
@@ -22,8 +21,14 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
         };
     }
 
-    const teamOwner = await findPlayer(interaction.user.id) as PlayerInfoT;
-    const invitedPlayer = await findPlayer(member.user.id);
+
+    const teamOwner = await Player.findOne({
+        discord_id: interaction.user.id
+    }).exec();
+
+    const invitedPlayer = await Player.findOne({
+        discord_id: member.user.id
+    }).exec()
 
     if (!invitedPlayer) {
         return {
@@ -36,7 +41,7 @@ export default async (interaction: CommandInteraction): Promise<MiddlewareResult
         };
     }
 
-    if (!teamOwner.team_id) {
+    if (!teamOwner?.team_id) {
         return {
             result: false,
             interaction,

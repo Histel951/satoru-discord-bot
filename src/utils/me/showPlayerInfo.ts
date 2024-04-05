@@ -1,6 +1,7 @@
-import { PlayerInfoT } from "../../types/dota/PlayerInfoT";
+import { IPlayer } from "../../interfaces/schemas/IPlayer";
+import { Document } from "mongoose";
 
-export default (playerInfo: PlayerInfoT): string => {
+export default (playerInfo: IPlayer & Document): string => {
     return `
 **Имя**: \`${playerInfo.personaname}\`
 **Ранг**: \`${playerInfo.rank}\`

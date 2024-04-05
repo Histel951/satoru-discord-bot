@@ -23,7 +23,6 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
             team_id: team._id,
         }).exec();
 
-
         players.forEach(player => {
             embed.setFields({
                 name: player.personaname,
@@ -31,7 +30,6 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
             });
         });
     }
-
 
     return embed;
 }

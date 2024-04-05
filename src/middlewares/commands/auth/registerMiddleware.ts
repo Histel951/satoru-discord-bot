@@ -1,10 +1,12 @@
 import { CommandInteraction } from "discord.js";
-import findPlayer from "../../../utils/dota/findPlayer";
 import showPlayerInfo from "../../../utils/me/showPlayerInfo";
 import { MiddlewareResult } from "../../../types/MiddlewareTypes";
+import {Player} from "../../../database/models";
 
 export default async (interaction: CommandInteraction): Promise<MiddlewareResult<CommandInteraction>> => {
-    const player = await findPlayer(interaction.user.id);
+    const player = await Player.findOne({
+        discord_id: interaction.user.id
+    }).exec();
 
     if (player) {
         return {

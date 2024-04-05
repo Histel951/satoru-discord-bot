@@ -3,22 +3,19 @@ import teamInviteBtns from "../../ui-interface/btns/teamInviteBtns";
 import getTeamInfoEmbed from "../../utils/team/getTeamInfoEmbed";
 import { ITeam } from "../../interfaces/schemas/ITeam";
 import { Player, TeamInvite } from "../../database/models";
-import { IPlayer } from "../../interfaces/schemas/IPlayer";
 import { DotaRolesEnum } from "../../enums/DotaRolesEnum";
-import { Document } from "mongoose";
-import { ITeamInvite } from "../../interfaces/schemas/ITeamInvite";
 
 export const cancelTeamInvite = async (interaction: ButtonInteraction) => {
     const player = await Player.findOne({
         discord_id: interaction.user.id
-    }).exec() as IPlayer;
+    }).exec();
 
     await TeamInvite.deleteOne({
-        player_id: player._id
+        player_id: player!._id
     }).exec();
 
     const newInvite = await TeamInvite.findOne({
-        player_id: player._id
+        player_id: player!._id
     }).populate({
         path: 'team_id',
     }).exec();
@@ -50,19 +47,19 @@ export const cancelTeamInvite = async (interaction: ButtonInteraction) => {
 export const acceptTeamInvite = async (interaction: ButtonInteraction) => {
     const player = await Player.findOne({
         discord_id: interaction.user.id
-    }).exec() as IPlayer & Document;
-
-    const invite = await TeamInvite.findOne({
-        player_id: player._id
-    }).populate({
-        path: 'team_id',
-    }).exec() as ITeamInvite & Document;
-
-    await player.updateOne({
-        team_id: invite.team_id
     }).exec();
 
-    const team = invite.team_id as ITeam;
+    const invite = await TeamInvite.findOne({
+        player_id: player!._id
+    }).populate({
+        path: 'team_id',
+    }).exec();
+
+    const team = invite!.team_id as ITeam;
+
+    await player!.updateOne({
+        team_id: invite!.team_id
+    }).exec();
 
     const teamEmbed = await getTeamInfoEmbed(team);
     teamEmbed.setTitle(team.name);
@@ -72,7 +69,7 @@ export const acceptTeamInvite = async (interaction: ButtonInteraction) => {
     `);
 
     await TeamInvite.deleteMany({
-        player_id: player._id
+        player_id: player!._id
     }).exec();
 
     await interaction.update({
