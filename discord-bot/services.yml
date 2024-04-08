@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  discord-js-service:
+    build:
+      context: 'docker/node/${NODE_DOCKER_ENV:-20}'
+      dockerfile: Dockerfile
+    image: satoru-discord-js
+    container_name: satoru-discord-bot
+    restart: unless-stopped
+    environment:
+      ENV: '${ENV:-docker}'
+      DISCORD_TOKEN: '${DISCORD_TOKEN}'
+      DISCORD_CLIENT_ID: '${DISCORD_CLIENT_ID}'
+      GUILD_ID: '${GUILD_ID:-}'
+      NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+      DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
+      EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
+    volumes:
+      - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
+    ports:
+      - "${NODE_PORT:-80}:8080"
+    command: '${DOCKER_PROJECT_DIR:-/usr/src/app}/cmd/run-envs/${ENV:-docker}.sh'

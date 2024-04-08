@@ -1,5 +1,2 @@
 .idea
-dist
-.env
-config.json
-node_modules
+*.env

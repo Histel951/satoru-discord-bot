@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  api-service:
+    build:
+      context: '../config/docker/node/${NODE_DOCKER_ENV:-20}'
+      dockerfile: Dockerfile
+    image: satoru-api-js
+    env_file: .env
+    working_dir: "${DOCKER_PROJECT_DIR:-/usr/src/app}"
+    container_name: satoru-api
+    restart: unless-stopped
+    volumes:
+      - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
+    ports:
+      - "${NODE_PORT:-3000}:3000"
+    command: '${DOCKER_PROJECT_DIR:-/usr/src/app}/cmd/run-envs/${ENV:-docker}.sh'

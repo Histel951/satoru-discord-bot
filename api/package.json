@@ -1,0 +1,23 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.5",
+    "express": "^4.19.2",
+    "typescript": "^5.4.4"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "cmd/build.sh",
+    "dev": "nodemon --legacy-watch src/index.ts"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
+  }
+}
