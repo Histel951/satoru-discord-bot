@@ -6,10 +6,14 @@ services:
       context: 'docker/node/${NODE_DOCKER_ENV:-20}'
       dockerfile: Dockerfile
     image: satoru-api-js
-    env_file: .env
     working_dir: "${DOCKER_PROJECT_DIR:-/usr/src/app}"
     container_name: satoru-api
     restart: unless-stopped
+    environment:
+      ENV: '${ENV:-docker}'
+      NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+      DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
+      EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
     volumes:
       - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
     ports:

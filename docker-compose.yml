@@ -22,8 +22,10 @@ services:
     discord-js-app:
         extends:
             service: discord-js-service
-            file: "discord-bot/services.yml"
-        env_file: .env
+            file: "discord-bot/docker-services.yml"
+        env_file:
+            - discord-bot.env
+            - .env
         environment:
             MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
             MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
@@ -36,22 +38,24 @@ services:
         depends_on:
             - mongodb
 
-#    api-app:
-#        extends:
-#            service: api-service
-#            file: "api/services.yml"
-#        env_file: api.env
-#        environment:
-#            MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
-#            MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
-#            MONGO_HOSTNAME: mongodb
-#            MONGO_PORT: '${MONGO_PORT:-27017}'
-#            MONGO_DB: '${MONGO_DB:-satoro_bot}'
-#            NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
-#        networks:
-#            - app
-#        depends_on:
-#            - mongodb
+    api-app:
+        extends:
+            service: api-service
+            file: "api/docker-services.yml"
+        env_file:
+            - api.env
+            - .env
+        environment:
+            MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
+            MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
+            MONGO_HOSTNAME: mongodb
+            MONGO_PORT: '${MONGO_PORT:-27017}'
+            MONGO_DB: '${MONGO_DB:-satoro_bot}'
+            NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+        networks:
+            - app
+        depends_on:
+            - mongodb
 
 networks:
     app:

@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "cmd/build.sh",
-    "dev": "nodemon --legacy-watch src/index.ts"
+    "dev": "npx nodemon --legacy-watch --verbose src/**/*.ts"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
