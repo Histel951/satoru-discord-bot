@@ -6,7 +6,6 @@ services:
             service: mongodb-service
             file: "mongodb/docker-services.yml"
         env_file:
-            - mongodb.env
             - .env
         networks:
             - app
@@ -16,7 +15,6 @@ services:
             service: discord-js-service
             file: "discord-bot/docker-services.yml"
         env_file:
-            - discord-bot.env
             - .env
         environment:
             MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
@@ -35,7 +33,6 @@ services:
             service: api-service
             file: "api/docker-services.yml"
         env_file:
-            - api.env
             - .env
         environment:
             MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
