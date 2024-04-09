@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb_satoru_bot
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME:-admin}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD:-password}'
+      MONGO_INITDB_DATABASE: '${MONGO_DB:-satoro_bot}'
+    user: 999:999
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-scripts:/docker-entrypoint-initdb.d

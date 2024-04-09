@@ -2,22 +2,14 @@ version: '3.8'
 
 services:
     mongodb:
-        image: mongo:latest
-        container_name: mongodb_satoro_bot
-        restart: unless-stopped
-        env_file: .env
-        ports:
-            - "${DB_PORT:-27017}:27017"
+        extends:
+            service: mongodb-service
+            file: "mongodb/docker-services.yml"
+        env_file:
+            - mongodb.env
+            - .env
         networks:
             - app
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME:-admin}'
-            MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD:-password}'
-            MONGO_INITDB_DATABASE: '${MONGO_DB:-satoro_bot}'
-        user: 999:999
-        volumes:
-            - mongodb_data:/data/db
-            - ./init-scripts:/docker-entrypoint-initdb.d
 
     discord-js-app:
         extends:
