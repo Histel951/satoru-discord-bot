@@ -1,9 +1,9 @@
-version: '3'
+version: '3.8'
 
 services:
   api-service:
     build:
-      context: 'docker/node/${NODE_DOCKER_ENV:-20}'
+      context: '/usr/local/lib/node/${NODE_DOCKER_ENV:-20}'
       dockerfile: Dockerfile
     image: satoru-api-js
     working_dir: "${DOCKER_PROJECT_DIR:-/usr/src/app}"
@@ -16,6 +16,8 @@ services:
       EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
     volumes:
       - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
+      - "../docker/bin/:/usr/local/bin/docker"
+      - "../docker/node/:/usr/local/lib/node"
     ports:
       - "${NODE_PORT:-3000}:3000"
-    command: '${DOCKER_PROJECT_DIR:-/usr/src/app}/cmd/run-envs/${ENV:-docker}.sh'
+    command: '/usr/local/bin/docker/${ENV:-docker}.sh'

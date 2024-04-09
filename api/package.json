@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build": "cmd/build.sh",
+    "build": "/bin/build-ts.sh",
     "dev": "npx nodemon --legacy-watch --verbose src/**/*.ts"
   },
   "devDependencies": {
