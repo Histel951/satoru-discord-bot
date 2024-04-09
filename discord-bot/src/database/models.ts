@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import { satoroBotDb } from "./connect";
+import mongoose from "mongoose";
 import TeamSchema from "./schemas/TeamSchema";
 import UserSchema from "./schemas/UserSchema";
 import PlayerSchema from "./schemas/PlayerSchema";
@@ -13,9 +13,9 @@ import { IPlayer } from "../interfaces/schemas/IPlayer";
 import { ITeam } from "../interfaces/schemas/ITeam";
 import { ITeamInvite } from "../interfaces/schemas/ITeamInvite";
 
-export const Team = satoroBotDb.model<ITeam & Document>('Team', TeamSchema);
-export const User = satoroBotDb.model<IUser & Document>('User', UserSchema);
-export const Player = satoroBotDb.model<IPlayer & Document>('Player', PlayerSchema);
-export const TeamInvite = satoroBotDb.model<ITeamInvite & Document>('TeamInvite', TeamInviteSchema);
-export const Tournament = satoroBotDb.model<ITournament & Document>('Tournament', TournamentSchema);
-export const TournamentTeams = satoroBotDb.model<ITournamentTeams & Document>('TournamentTeams', TournamentTeamsSchema);
+export const Team = mongoose.connection.model<ITeam & Document>('Team', TeamSchema);
+export const User = mongoose.connection.model<IUser & Document>('User', UserSchema);
+export const Player = mongoose.connection.model<IPlayer & Document>('Player', PlayerSchema);
+export const TeamInvite = mongoose.connection.model<ITeamInvite & Document>('TeamInvite', TeamInviteSchema);
+export const Tournament = mongoose.connection.model<ITournament & Document>('Tournament', TournamentSchema);
+export const TournamentTeams = mongoose.connection.model<ITournamentTeams & Document>('TournamentTeams', TournamentTeamsSchema);

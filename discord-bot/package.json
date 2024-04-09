@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cmd/build.sh",
     "prod": "npm run build && node build/index.js && ENV=prod",
-    "dev": "npx nodemon --legacy-watch src/index.ts",
+    "dev": "npx nodemon --legacy-watch --verbose src/**/*.ts",
     "command-deploy": "node dist/command-deploy.js"
   },
   "keywords": [],

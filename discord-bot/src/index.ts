@@ -18,6 +18,7 @@ import handleError from "./utils/handleError";
 import { RolesEnum } from "./enums/RolesEnum";
 import addRoleByName from "./utils/roles/addRoleByName";
 import commandPlugin from "./plugins/commandPlugin";
+import connectToDatabase from "./database/connect";
 
 const client = new Client({
     intents: [
@@ -29,8 +30,11 @@ const client = new Client({
     ]
 });
 
-client.on(Events.ClientReady, (client): void => {
-    console.log('ready');
+client.on(Events.ClientReady, async (client) => {
+    console.log('Client ready!');
+
+    await connectToDatabase();
+
     if (process.env.ENV === 'prod') {
         console.log(`Logged in as ${client.user.tag}!`);
     }

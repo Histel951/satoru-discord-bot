@@ -3,7 +3,7 @@ version: '3'
 services:
   api-service:
     build:
-      context: '../config/docker/node/${NODE_DOCKER_ENV:-20}'
+      context: 'docker/node/${NODE_DOCKER_ENV:-20}'
       dockerfile: Dockerfile
     image: satoru-api-js
     env_file: .env

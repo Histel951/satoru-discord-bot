@@ -20,20 +20,17 @@ USAGE
 }
 
 wait_for() {
-  for i in `seq $TIMEOUT` ; do
-    nc -z "$HOST" "$PORT" > /dev/null 2>&1
-
-    result=$?
-    if [ $result -eq 0 ] ; then
-      if [ $# -gt 0 ] ; then
-        exec "$@"
-      fi
-      exit 0
+  nc -z -w "$TIMEOUT" "$HOST" "$PORT" > /dev/null 2>&1
+  result=$?
+  if [ $result -eq 0 ]; then
+    if [ $# -gt 0 ]; then
+      exec "$@"
     fi
-    sleep 1
-  done
-  echo "Operation timed out" >&2
-  exit 1
+    exit 0
+  else
+    echo "Operation timed out" >&2
+    exit 1
+  fi
 }
 
 while [ $# -gt 0 ]
