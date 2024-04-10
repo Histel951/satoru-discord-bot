@@ -10,7 +10,7 @@ const port = process.env.EXPRESS_PORT ?? 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/auth/', authRouter)
 app.use('/api/v1/tournaments/', tournamentRouter);
 
 app.listen(port, async () => {

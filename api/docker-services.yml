@@ -14,7 +14,7 @@ services:
       NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
       DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
       EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
-      SECRET_KEY: '${TOKEN_SECRET_KEY:-4b9c27038a13f9a4b2d77bb7dbb3afcb2b98323c90b7e9a4b94a192a8b4e0e34}'
+      SECRET_KEY: '${TOKEN_SECRET_KEY:-f4e8c201ca48d75bf9c6954b0f126e0b54f0b724d4e25695c661732d0c7af2a2}'
     volumes:
       - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
       - "../docker/bin/:/usr/local/bin/docker"

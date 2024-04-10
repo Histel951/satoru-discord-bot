@@ -1,2 +1,2 @@
 export default () => process.env.PASSWORD_SECRET_KEY ??
-    '4b9c27038a13f9a4b2d77bb7dbb3afcb2b98323c90b7e9a4b94a192a8b4e0e34';
+    'f4e8c201ca48d75bf9c6954b0f126e0b54f0b724d4e25695c661732d0c7af2a2';
