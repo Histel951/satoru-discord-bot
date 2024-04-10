@@ -1,12 +1,20 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import tournamentRouter from "./http/routes/tournamentRouter";
+import connectToDatabase from "./database/connect";
+import bodyParser from "body-parser";
+import authRouter from "./http/routes/authRouter";
 
 const app = express();
-const port = 3000;
+const port = process.env.EXPRESS_PORT ?? 3000;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!');
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, () => {
+app.use('/api/v1/auth/', authRouter)
+app.use('/api/v1/tournaments/', tournamentRouter);
+
+app.listen(port, async () => {
     console.log(`Server is listening at http://localhost:${port}`);
+
+    await connectToDatabase();
 });

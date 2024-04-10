@@ -41,4 +41,4 @@ export default async (interaction: CommandInteraction): ExecuteT => {
         components: [teamInviteBtns()],
         ephemeral: true,
     });
-}
+};

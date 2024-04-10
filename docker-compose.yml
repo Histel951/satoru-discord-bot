@@ -45,6 +45,16 @@ services:
             - app
         depends_on:
             - mongodb
+#            - api-redis
+
+#    api-redis:
+#        extends:
+#            service: api-redis
+#            file: "api/docker-services.yml"
+#        env_file:
+#            - .env
+#        networks:
+#            - app
 
 networks:
     app:
