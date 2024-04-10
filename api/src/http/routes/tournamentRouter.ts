@@ -1,6 +1,7 @@
 import express from "express";
 import { Tournament } from "../../database/models";
 import tournamentValidator from "../validators/tournamentValidator";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/:id', async (req, res) => {
     }).exec());
 });
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     const { error, value } = tournamentValidator.validate(req.body)
 
     if (error) {
@@ -29,7 +30,7 @@ router.post('/', async (req, res) => {
     return res.send(await tournament.save());
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
 
     const { error, value } = tournamentValidator.validate(req.body)

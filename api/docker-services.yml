@@ -14,9 +14,20 @@ services:
       NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
       DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
       EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
+      SECRET_KEY: '${TOKEN_SECRET_KEY:-4b9c27038a13f9a4b2d77bb7dbb3afcb2b98323c90b7e9a4b94a192a8b4e0e34}'
     volumes:
       - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
       - "../docker/bin/:/usr/local/bin/docker"
     ports:
       - "${NODE_PORT:-3000}:3000"
     command: '/usr/local/bin/docker/${ENV:-docker}.sh'
+
+  api-redis:
+    image: redis
+    container_name: api-redis
+    ports:
+      - "6379:6379"
+    restart: always
+    environment:
+      REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
+      REDIS_PORT: '${REDIS_PORT:-6379}'
