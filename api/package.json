@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "/bin/build-ts.sh",
-    "dev": "npx nodemon --legacy-watch --exitcrash --verbose src/**/*.ts"
+    "dev": "npx nodemon --config nodemon.json --verbose src/**/*.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

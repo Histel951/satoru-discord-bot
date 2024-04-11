@@ -18,6 +18,7 @@ services:
     volumes:
       - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
       - "../docker/bin/:/usr/local/bin/docker"
+      - "./node_modules:${DOCKER_PROJECT_DIR:-/usr/src/app}/node_modules"
     ports:
       - "${NODE_PORT:-3000}:3000"
     command: '/usr/local/bin/docker/${ENV:-docker}.sh'

@@ -104,6 +104,8 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   # smoke test
   && yarn --version
 
+RUN yarn global add ts-node
+
 COPY docker-entrypoint.sh /usr/local/bin/
 
 COPY wait-for.sh /usr/local/bin/
