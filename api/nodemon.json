@@ -5,10 +5,5 @@
   "exec": "ts-node ./src/index.ts",
   "execMap": {
     "ts": "ts-node"
-  },
-  "max_restarts": 3,
-  "delay": 1000,
-  "exitcrash": true,
-  "legacy-watch": true,
-  "verbose": false
+  }
 }
