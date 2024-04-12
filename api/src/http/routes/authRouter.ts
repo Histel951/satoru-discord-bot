@@ -6,10 +6,8 @@ import getTokenSecretKey from "../../utils/getTokenSecretKey";
 import bcrypt from 'bcrypt';
 import verifyToken from "../middlewares/verifyToken";
 import { JwtPayload } from "../../interfaces/http/JwtPayload";
-import redis from 'redis';
 import { AuthenticatedRequest } from "../../interfaces/http/AuthenticatedRequest";
-
-const client = redis.createClient();
+import redisClient from "../../database/redisClient";
 
 const router = express.Router();
 
@@ -49,7 +47,7 @@ router.post('/login',async (req, res) => {
 
 router.post('/logout', verifyToken, async (req: AuthenticatedRequest, res) => {
     try {
-        await client.set(req.token as string, 'invalid', {
+        await redisClient.set(req.token as string, 'invalid', {
             EX: 3600
         });
 

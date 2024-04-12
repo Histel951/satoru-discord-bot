@@ -42,26 +42,28 @@ services:
             MONGO_PORT: '${MONGO_PORT:-27017}'
             MONGO_DB: '${MONGO_DB:-satoro_bot}'
             NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+            REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
+            REDIS_PORT: '${REDIS_PORT:-6379}'
         stop_grace_period: 1m
         networks:
             - app
         depends_on:
             - mongodb
-#            - redis
+            - redis
 
-#    redis:
-#        image: redis
-#        container_name: redis
-#        ports:
-#            - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
-#        restart: always
-#        environment:
-#            REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
-#            REDIS_PORT: '${REDIS_PORT:-6379}'
-#        env_file:
-#            - .env
-#        networks:
-#            - app
+    redis:
+        image: redis
+        container_name: redis
+        ports:
+            - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
+        restart: always
+        environment:
+            REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
+            REDIS_PORT: '${REDIS_PORT:-6379}'
+        env_file:
+            - .env
+        networks:
+            - app
 
 networks:
     app:
