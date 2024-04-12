@@ -6,6 +6,10 @@ import getTokenSecretKey from "../../utils/getTokenSecretKey";
 import bcrypt from 'bcrypt';
 import verifyToken from "../middlewares/verifyToken";
 import { JwtPayload } from "../../interfaces/http/JwtPayload";
+import redis from 'redis';
+import { AuthenticatedRequest } from "../../interfaces/http/AuthenticatedRequest";
+
+const client = redis.createClient();
 
 const router = express.Router();
 
@@ -43,10 +47,21 @@ router.post('/login',async (req, res) => {
     });
 });
 
-router.post(
-    '/user',
-    verifyToken,
-    async (req, res) => {
+router.post('/logout', verifyToken, async (req: AuthenticatedRequest, res) => {
+    try {
+        await client.set(req.token as string, 'invalid', {
+            EX: 3600
+        });
+
+        return res.status(200).json({ message: 'Вы вышли из аккаунта.' });
+    } catch (err) {
+        console.error(err)
+
+        return res.status(500).json({ error: err });
+    }
+})
+
+router.post('/user', verifyToken, async (req, res) => {
     const { error, value } = authValidator.validate(req.body)
 
     if (error) {

@@ -5,7 +5,6 @@ services:
     build:
       context: '../docker/node/${NODE_DOCKER_ENV:-20}'
       dockerfile: Dockerfile
-    image: satoru-discord-js
     container_name: satoru-discord-bot
     restart: unless-stopped
     environment:

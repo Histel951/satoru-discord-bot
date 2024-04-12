@@ -47,12 +47,17 @@ services:
             - app
         depends_on:
             - mongodb
-#            - api-redis
+#            - redis
 
-#    api-redis:
-#        extends:
-#            service: api-redis
-#            file: "api/docker-services.yml"
+#    redis:
+#        image: redis
+#        container_name: redis
+#        ports:
+#            - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
+#        restart: always
+#        environment:
+#            REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
+#            REDIS_PORT: '${REDIS_PORT:-6379}'
 #        env_file:
 #            - .env
 #        networks:

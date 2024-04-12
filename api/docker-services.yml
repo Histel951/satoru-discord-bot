@@ -5,7 +5,6 @@ services:
     build:
       context: '../docker/node/${NODE_DOCKER_ENV:-20}'
       dockerfile: Dockerfile
-    image: satoru-api-js
     working_dir: "${DOCKER_PROJECT_DIR:-/usr/src/app}"
     container_name: satoru-api
     restart: unless-stopped
@@ -22,13 +21,3 @@ services:
     ports:
       - "${NODE_PORT:-3000}:3000"
     command: '/usr/local/bin/docker/${ENV:-docker}.sh'
-
-  api-redis:
-    image: redis
-    container_name: api-redis
-    ports:
-      - "6379:6379"
-    restart: always
-    environment:
-      REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
-      REDIS_PORT: '${REDIS_PORT:-6379}'
