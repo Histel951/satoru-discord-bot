@@ -73,7 +73,7 @@ router.post(
 
     return res.json({
         user: {
-            id: user._id,
+            _id: user._id,
             login,
         }
     });
