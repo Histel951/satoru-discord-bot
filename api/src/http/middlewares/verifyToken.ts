@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Response, NextFunction } from 'express';
 import getTokenSecretKey from "../../utils/getTokenSecretKey";
 import { AuthenticatedRequest } from "../../interfaces/http/AuthenticatedRequest";
+import { JwtPayload } from "../../interfaces/http/JwtPayload";
 
 export default (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
@@ -11,7 +12,7 @@ export default (req: AuthenticatedRequest, res: Response, next: NextFunction) =>
     }
 
     try {
-        req.user = jwt.verify(token, getTokenSecretKey());
+        req.user = jwt.verify(token, getTokenSecretKey()) as JwtPayload;
 
         next();
     } catch (error) {

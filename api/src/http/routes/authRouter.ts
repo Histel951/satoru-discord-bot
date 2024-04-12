@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import getTokenSecretKey from "../../utils/getTokenSecretKey";
 import bcrypt from 'bcrypt';
 import verifyToken from "../middlewares/verifyToken";
+import { JwtPayload } from "../../interfaces/http/JwtPayload";
 
 const router = express.Router();
 
@@ -29,14 +30,12 @@ router.post('/login',async (req, res) => {
         return res.status(422).send({ error: 'Неправильный логин или пароль.' });
     }
 
-    const token = jwt.sign(
-        {
-            id: authUser._id,
-            login
-        },
-        getTokenSecretKey(),
-        { expiresIn: '1h' }
-    );
+    const payload: JwtPayload = {
+        _id: authUser._id,
+        login,
+    };
+
+    const token = jwt.sign(payload, getTokenSecretKey(), { expiresIn: '1h' });
 
     return res.json({
         user: {
