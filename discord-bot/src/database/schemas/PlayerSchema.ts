@@ -2,29 +2,24 @@ import { Schema, Document, Types } from "mongoose";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
 
 export default new Schema<IPlayer & Document>({
-    discord_id: { type: String, required: true },
+    discord_id: String,
     team_id: {
         type: Types.ObjectId,
         ref: 'Team',
         default: null,
     },
-    account_id: {
+    account_id: String,
+    nickname: String,
+    avatar: {
         type: String,
-        required: true,
+        default: null,
     },
-    personaname: {
-        type: String,
-        required: true,
-    },
-    plus: {
-        type: Boolean,
-        default: false,
-    },
+    plus: Boolean,
     last_login: {
         type: String,
         default: null,
     },
-    rank: {
+    rank_tier: {
         type: Number,
         default: null,
     },

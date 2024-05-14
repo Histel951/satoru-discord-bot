@@ -1,4 +1,6 @@
-export default (error: undefined | Error) => {
+import { CatchErrorT } from "../types/CatchErrorT";
+
+export default (error: CatchErrorT) => {
     if (error instanceof Error) {
         return error.message;
     }

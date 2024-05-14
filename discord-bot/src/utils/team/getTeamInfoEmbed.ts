@@ -14,7 +14,7 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
     if (players) {
         players.forEach(player => {
             embed.setFields({
-                name: player.personaname,
+                name: player.nickname,
                 value: DotaRolesEnum[player.role as number],
             });
         });
@@ -25,7 +25,7 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
 
         players.forEach(player => {
             embed.setFields({
-                name: player.personaname,
+                name: player.nickname,
                 value: DotaRolesEnum[player.role as number],
             });
         });

@@ -1,8 +1,9 @@
-import { CreateTeamT } from "../../types/ModelTypes";
+import { CreateTeamT } from "../../types/CreateTeamT";
 import { ITeam } from "../../interfaces/schemas/ITeam";
 import { Document } from "mongoose";
 import { Player, Team } from "../../database/models";
 import handleError from "../handleError";
+import {CatchErrorT} from "../../types/CatchErrorT";
 
 export default async ({ discord_id, name, image_url, color }: CreateTeamT): Promise<ITeam & Document | null> => {
     try {
@@ -28,7 +29,7 @@ export default async ({ discord_id, name, image_url, color }: CreateTeamT): Prom
         await player.save();
 
         return team;
-    } catch (e) {
-        throw new Error(`Failed to create team: ${handleError(e as Error)}.`);
+    } catch (error: CatchErrorT) {
+        throw new Error(`Failed to create team: ${handleError(error)}.`);
     }
 }

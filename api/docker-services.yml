@@ -1,27 +1,21 @@
-version: '3.8'
-
 services:
   api-service:
-    build:
-      context: '../docker/node/${NODE_DOCKER_ENV:-20}'
-      dockerfile: Dockerfile
-    image: satoru-api-js
-    working_dir: "${DOCKER_PROJECT_DIR:-/usr/src/app}"
+    image: node:20-alpine
+    working_dir: ${DOCKER_PROJECT_DIR:-/usr/app}
     container_name: satoru-api
     restart: unless-stopped
     environment:
-      ENV: '${ENV:-docker}'
-      NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
-      DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
-      EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
-      SECRET_KEY: '${TOKEN_SECRET_KEY:-f4e8c201ca48d75bf9c6954b0f126e0b54f0b724d4e25695c661732d0c7af2a2}'
+      ENV: ${NODE_ENV:-dev}
+      NODE_DOCKER_ENV: ${NODE_DOCKER_ENV:-20}
+      DOCKER_PROJECT_DIR: ${DOCKER_PROJECT_DIR:-/usr/app}
+      EXPRESS_PORT: ${EXPRESS_PORT:-3000}
+      SECRET_KEY: ${TOKEN_SECRET_KEY:-f4e8c201ca48d75bf9c6954b0f126e0b54f0b724d4e25695c661732d0c7af2a2}
     volumes:
-      - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
-      - "../docker/bin/:/usr/local/bin/docker"
-      - "./node_modules:${DOCKER_PROJECT_DIR:-/usr/src/app}/node_modules"
+      - ./:${DOCKER_PROJECT_DIR:-/usr/app}
+      - ./node_modules:${DOCKER_PROJECT_DIR:-/usr/app}/node_modules
     ports:
-      - "${NODE_PORT:-3000}:3000"
-    command: '/usr/local/bin/docker/${ENV:-docker}.sh'
+      - ${NODE_PORT:-3000}:3000
+    command: npm run ${NODE_ENV:-dev}
 
   api-redis:
     image: redis
@@ -30,5 +24,5 @@ services:
       - "6379:6379"
     restart: always
     environment:
-      REDIS_PASSWORD: '${REDIS_PASSWORD:-password}'
-      REDIS_PORT: '${REDIS_PORT:-6379}'
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-password}
+      REDIS_PORT: ${REDIS_PORT:-6379}

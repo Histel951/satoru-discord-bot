@@ -10,9 +10,10 @@ export interface IPlayer {
     }
     account_id: string,
     role: number | null,
-    personaname: string,
+    nickname: string,
+    avatar: string,
     plus: boolean,
     last_login: string|null,
-    rank: number,
+    rank_tier: number,
     leaderboard_rank: number|null
 }

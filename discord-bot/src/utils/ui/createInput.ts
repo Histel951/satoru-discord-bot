@@ -1,5 +1,5 @@
 import { TextInputBuilder } from "discord.js";
-import { CreateInputT } from "../../types/ui/CreateInputT";
+import { CreateInputI } from "../../interfaces/ui/CreateInputI";
 
 export default ({
         customId,
@@ -9,7 +9,7 @@ export default ({
         required = true,
         minLength = null,
         maxLength = null
-    }: CreateInputT
+    }: CreateInputI
 ): TextInputBuilder => {
     const builder =  new TextInputBuilder()
         .setCustomId(customId)

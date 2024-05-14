@@ -1,25 +1,20 @@
-version: '3.8'
-
 services:
   discord-js-service:
-    build:
-      context: '../docker/node/${NODE_DOCKER_ENV:-20}'
-      dockerfile: Dockerfile
-    image: satoru-discord-js
+    image: node:20-alpine
     container_name: satoru-discord-bot
+    working_dir: ${DOCKER_PROJECT_DIR:-/usr/app}
     restart: unless-stopped
     environment:
-      ENV: '${ENV:-docker}'
-      DISCORD_TOKEN: '${DISCORD_TOKEN}'
-      DISCORD_CLIENT_ID: '${DISCORD_CLIENT_ID}'
-      GUILD_ID: '${GUILD_ID:-}'
-      NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
-      DOCKER_PROJECT_DIR: '${DOCKER_PROJECT_DIR:-/usr/src/app}'
-      EXPRESS_PORT: '${EXPRESS_PORT:-3000}'
+      ENV: ${NODE_ENV:-dev}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      GUILD_ID: ${GUILD_ID:-}
+      NODE_DOCKER_ENV: ${NODE_DOCKER_ENV:-20}
+      DOCKER_PROJECT_DIR: ${DOCKER_PROJECT_DIR:-/usr/app}
+      EXPRESS_PORT: ${EXPRESS_PORT:-3000}
     volumes:
-      - "./:${DOCKER_PROJECT_DIR:-/usr/src/app}"
-      - ../docker/bin/:/usr/local/bin/docker
-      - "./node_modules:${DOCKER_PROJECT_DIR:-/usr/src/app}/node_modules"
+      - ./:${DOCKER_PROJECT_DIR:-/usr/app}
+      - ./node_modules:${DOCKER_PROJECT_DIR:-/usr/app}/node_modules
     ports:
-      - "${NODE_PORT:-80}:8080"
-    command: '/usr/local/bin/docker/${ENV:-docker}.sh'
+      - ${NODE_PORT:-80}:8080
+    command: npm run ${NODE_ENV:-dev}

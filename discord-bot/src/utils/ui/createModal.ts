@@ -1,11 +1,11 @@
-import { CreateModalT } from "../../types/ui/CreateModalT";
+import { CreateModalI } from "../../interfaces/ui/CreateModalI";
 import {
     ActionRowBuilder,
     AnyComponentBuilder,
     ModalBuilder,
 } from "discord.js";
 
-export default <ComponentBuilderType extends AnyComponentBuilder>({ customId, title, rows = [] }: CreateModalT): ModalBuilder => {
+export default <ComponentBuilderType extends AnyComponentBuilder>({ customId, title, rows = [] }: CreateModalI): ModalBuilder => {
 
     const modal = new ModalBuilder()
         .setCustomId(customId)

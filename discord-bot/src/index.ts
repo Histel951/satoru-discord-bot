@@ -1,26 +1,20 @@
 import {
-    Client,
     GatewayIntentBits,
     Events,
-    Interaction,
-    ComponentType,
-    CollectorFilter,
     GuildMember,
 } from "discord.js";
-import { handlers } from "./containers";
-import {
-    AllowedCollectorFilterArgumentT,
-    AllowedInteraction,
-    AllowedComponentType,
-} from "./types/AllowedTypes";
-import { Executable } from "./interfaces/Executable";
-import handleError from "./utils/handleError";
-import { RolesEnum } from "./enums/RolesEnum";
-import addRoleByName from "./utils/roles/addRoleByName";
-import commandPlugin from "./plugins/commandPlugin";
+import loadCommands from "./bot/commands/loadCommands";
+import loadListeners from "./bot/listeners/loadListeners";
 import connectToDatabase from "./database/connect";
+import execCommand from "./bot/commands/execCommand";
+import { InteractionT } from "./types/InteractionT";
+import execListener from "./bot/listeners/execListener";
+import initClient from "./utils/initClient";
+import joinToGuildHandler from "./utils/joinToGuildHandler";
+import { CatchErrorT } from "./types/CatchErrorT";
+import handleError from "./utils/handleError";
 
-const client = new Client({
+const client = initClient({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -30,53 +24,28 @@ const client = new Client({
     ]
 });
 
-client.on(Events.ClientReady, async (client) => {
+client.on(Events.ClientReady, async () => {
     console.log('Client ready!');
 
     await connectToDatabase();
 
-    if (process.env.ENV === 'prod') {
-        console.log(`Logged in as ${client.user.tag}!`);
-    }
+    console.log('Database ready!');
+
+    loadCommands(client);
+    loadListeners(client);
+
+    console.log('Loaded commands and listeners!')
 });
 
-const handleMessageComponent = (
-    componentType: AllowedComponentType,
-    executable: Executable<AllowedInteraction>,
-    interaction: Interaction,
-    collectorFilter: CollectorFilter<AllowedCollectorFilterArgumentT>
-) => {
-    interaction.channel?.awaitMessageComponent({
-        componentType: componentType,
-        time: 600000,
-        filter: collectorFilter
-    }).then(async (interaction: AllowedInteraction) => {
-        await executable.execute(interaction);
-    });
-};
-
-client.on(Events.InteractionCreate, async (interaction: Interaction) => {
-    const userFilter: CollectorFilter<AllowedCollectorFilterArgumentT> = i => i.user.id === interaction.user.id;
-
-    handleMessageComponent(ComponentType.Button, handlers, interaction, userFilter);
-    handleMessageComponent(ComponentType.UserSelect, handlers, interaction, userFilter);
-
-    await commandPlugin(interaction);
-
-    if (interaction.isModalSubmit()) {
-        await handlers.execute(interaction);
-    }
+client.on(Events.InteractionCreate, async (interaction: InteractionT) => {
+    await execCommand(interaction);
+    await execListener(interaction);
 });
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
-    try {
-        // Выдача роли новому пользователю
-        await addRoleByName(member, RolesEnum.Unproved, member.guild.roles)
-    } catch (e) {
-        console.error(`Ошибка при выдаче роли: ${handleError(e as Error)}`)
-    }
+    await joinToGuildHandler(member);
 });
 
-client.login(process.env.DISCORD_TOKEN).catch(e => {
-    console.error(e)
+client.login(process.env.DISCORD_TOKEN).catch((error: CatchErrorT) => {
+    console.error('Client login error: ' + handleError(error));
 });

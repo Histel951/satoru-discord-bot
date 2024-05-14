@@ -1,10 +1,8 @@
-version: '3'
-
 services:
     mongodb:
         extends:
             service: mongodb-service
-            file: "mongodb/docker-services.yml"
+            file: mongodb/docker-services.yml
         env_file:
             - .env
         networks:
@@ -13,17 +11,17 @@ services:
     discord-js-app:
         extends:
             service: discord-js-service
-            file: "discord-bot/docker-services.yml"
+            file: discord-bot/docker-services.yml
         env_file:
             - .env
         environment:
-            MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
-            MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
+            MONGO_USERNAME: ${MONGO_USERNAME:-admin}
+            MONGO_PASSWORD: ${MONGO_PASSWORD:-password}
             MONGO_HOSTNAME: mongodb
-            MONGO_PORT: '${MONGO_PORT:-27017}'
-            MONGO_DB: '${MONGO_DB:-satoro_bot}'
-            NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
-        stop_grace_period: 1m
+            MONGO_PORT: ${MONGO_PORT:-27017}
+            MONGO_DB: ${MONGO_DB:-satoro_bot}
+            NODE_DOCKER_ENV: ${NODE_DOCKER_ENV:-20}
+        stop_grace_period: 40s
         networks:
             - app
         depends_on:
@@ -32,31 +30,38 @@ services:
     api-app:
         extends:
             service: api-service
-            file: "api/docker-services.yml"
+            file: api/docker-services.yml
         env_file:
             - .env
         environment:
-            MONGO_USERNAME: '${MONGO_USERNAME:-admin}'
-            MONGO_PASSWORD: '${MONGO_PASSWORD:-password}'
+            MONGO_USERNAME: ${MONGO_USERNAME:-admin}
+            MONGO_PASSWORD: ${MONGO_PASSWORD:-password}
             MONGO_HOSTNAME: mongodb
-            MONGO_PORT: '${MONGO_PORT:-27017}'
-            MONGO_DB: '${MONGO_DB:-satoro_bot}'
-            NODE_DOCKER_ENV: '${NODE_DOCKER_ENV:-20}'
+            MONGO_PORT: ${MONGO_PORT:-27017}
+            MONGO_DB: ${MONGO_DB:-satoro_bot}
+            NODE_DOCKER_ENV: ${NODE_DOCKER_ENV:-20}
+            REDIS_PASSWORD: ${REDIS_PASSWORD:-password}
+            REDIS_PORT: ${REDIS_PORT:-6379}
         stop_grace_period: 1m
         networks:
             - app
         depends_on:
             - mongodb
-#            - api-redis
+            - redis
 
-#    api-redis:
-#        extends:
-#            service: api-redis
-#            file: "api/docker-services.yml"
-#        env_file:
-#            - .env
-#        networks:
-#            - app
+    redis:
+        image: redis
+        container_name: redis
+        ports:
+            - ${REDIS_PORT:-6379}:${REDIS_PORT:-6379}
+        restart: always
+        environment:
+            REDIS_PASSWORD: ${REDIS_PASSWORD:-password}
+            REDIS_PORT: ${REDIS_PORT:-6379}
+        env_file:
+            - .env
+        networks:
+            - app
 
 networks:
     app:

@@ -1,11 +1,11 @@
-import { PlayerDotaResponseT } from "../../types/dota/PlayerDotaInfoResponseT";
-import openDotaAxios from "../../axios/openDotaAxios";
-import { PlayerInfoT } from "../../types/dota/PlayerInfoT";
+import oDAxios from "../../plugins/oDaxios";
+import { PlayerInfoI } from "../../interfaces/dota/PlayerInfoI";
 import { RanksT } from "../../enums/RanksEnum";
 import getRankName from "./getRankName";
+import { PlayerInfoResponseT } from "../../types/dota-api/open-dota/responses/PlayerInfoResponseT";
 
-export default async (dotaId: number|string): Promise<PlayerInfoT> => {
-    const { data } = await openDotaAxios.get<PlayerDotaResponseT>(`/players/${dotaId}`);
+export default async (dotaId: number|string): Promise<PlayerInfoI> => {
+    const { data } = await oDAxios.get<PlayerInfoResponseT>(`/players/${dotaId}`);
 
     return {
         account_id: String(data.profile.account_id),

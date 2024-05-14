@@ -1,11 +1,13 @@
-import {REST, Routes, SlashCommandBuilder} from "discord.js"
-import { commands } from "./containers";
+import { REST, Routes, SlashCommandBuilder } from "discord.js"
+import getCommandsList from "./utils/getCommandsList";
+
+const commands = getCommandsList();
 
 const rest = new REST({
     version: '10'
 }).setToken(process.env.DISCORD_TOKEN ?? '');
 
-const deployCommands = commands.getAll().map(command => {
+const deployCommands = commands.map(command => {
     const builder = new SlashCommandBuilder()
         .setName(command.name)
         .setDescription(command.description);
