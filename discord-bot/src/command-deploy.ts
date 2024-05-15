@@ -9,12 +9,16 @@ const rest = new REST({
 
 const deployCommands = commands.map(command => {
     const builder = new SlashCommandBuilder()
-        .setName(command.name)
-        .setDescription(command.description);
+        .setName(command.getName())
+        .setDescription(command.getDescription());
 
-    command.options?.forEach(option => {
-        builder.addStringOption(option)
-    })
+    if (command.getOptions) {
+        const commandOptions = command.getOptions();
+
+        commandOptions.forEach(option => {
+            builder.addStringOption(option)
+        })
+    }
 
     return builder;
 })

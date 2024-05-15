@@ -45,7 +45,7 @@ const middlewareExecute = async (
 const executeWithMiddleware = async (interaction: CommandInteraction, command: CommandI<CommandInteraction>) => {
     const interactionMiddleware = await middlewareExecute(interaction, command.middleware)
 
-    if (interactionMiddleware.result) {
+    if (interactionMiddleware.result && command.execute) {
         await command.execute(interactionMiddleware.interaction, interactionMiddleware.options ?? {});
     } else {
         await interactionMiddleware.interaction.reply(interactionMiddleware?.options as InteractionReplyOptions);
@@ -60,8 +60,14 @@ export default async (interaction: InteractionT) => {
             return;
         }
 
-        command.middleware
-            ? await executeWithMiddleware(interaction, command)
-            : await command.execute(interaction, {});
+        if (command.middleware) {
+            await executeWithMiddleware(interaction, command);
+            return;
+        }
+
+        if (command.execute) {
+            await command.execute(interaction, {});
+            return;
+        }
     }
 }

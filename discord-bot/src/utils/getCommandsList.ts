@@ -1,23 +1,23 @@
 import { CommandI } from "../interfaces/CommandI";
 import { CommandInteraction } from "discord.js";
-import { registerCommand } from "../bot/commands/auth/register/registerCommand";
-import { unRegisterCommand } from "../bot/commands/auth/un-register/unRegisterCommand";
-import { tournamentCreateCommand } from "../bot/commands/tournament/tournament-create/tournamentCreateCommand";
-import { createTeamCommand } from "../bot/commands/team/create-team/createTeamCommand";
-import { inviteToTeamCommand } from "../bot/commands/team/invite-to-team/inviteToTeamCommand";
-import { acceptInviteCommand } from "../bot/commands/team/accept-invite/acceptInviteCommand";
-import { teamKickCommand } from "../bot/commands/team/team-kick/teamKickCommand";
-import { teamInfoCommand } from "../bot/commands/team/team-info/teamInfoCommand";
-import { inviteListCommand } from "../bot/commands/team/invite-list/inviteListCommand";
+import RegisterCommand from "../bot/commands/auth/RegisterCommand";
+import UnRegisterCommand from "../bot/commands/auth/UnRegisterCommand";
+import CreateTeamCommand from "../bot/commands/team/CreateTeamCommand";
+import InviteToTeamCommand from "../bot/commands/team/InviteToTeamCommand";
+import AcceptInviteCommand from "../bot/commands/team/AcceptInviteCommand";
+import TeamKickCommand from "../bot/commands/team/TeamKickCommand";
+import TeamInfoCommand from "../bot/commands/team/TeamInfoCommand";
+import InviteListCommand from "../bot/commands/team/InviteListCommand";
+import TournamentCreateCommand from "../bot/commands/tournament/tournamentCreateCommand";
 
 export default (): CommandI<CommandInteraction>[] => [
-    registerCommand,
-    unRegisterCommand,
-    createTeamCommand,
-    inviteToTeamCommand,
-    acceptInviteCommand,
-    teamKickCommand,
-    teamInfoCommand,
-    inviteListCommand,
-    tournamentCreateCommand,
+    new RegisterCommand('register', 'Зарегистрироваться на сервере как игрок'),
+    new UnRegisterCommand('un-register', 'Отменяет регистрацию пользователя'),
+    new CreateTeamCommand('create-team', 'Создать свою команду.'),
+    new InviteToTeamCommand('invite-to-team', 'Пригласить в команду'),
+    new AcceptInviteCommand('invite-accept', 'Принять приглашение на вступление в команду.'),
+    new TeamKickCommand('team-kick', 'Кикнуть игрока из команды.'),
+    new TeamInfoCommand('team-info', 'Информация по команде.'),
+    new InviteListCommand('invite-list', 'Получить список всех приглашений в команду.'),
+    new TournamentCreateCommand('tournament-create', 'Вызывает панельку для создания турнира'),
 ];
