@@ -1,14 +1,14 @@
-import {ListenerType} from "../../../../types/ListenerTypes";
-import {ButtonInteraction} from "discord.js";
-import {Player, TeamInvite} from "../../../../database/models";
-import {ITeam} from "../../../../interfaces/schemas/ITeam";
-import getTeamInfoEmbed from "../../../../utils/team/getTeamInfoEmbed";
-import {DotaRolesEnum} from "../../../../enums/DotaRolesEnum";
-import teamInviteBtns from "../../../ui-interface/btns/teamInviteBtns";
+import AbstractListener from "../AbstractListener";
+import { ButtonInteraction } from "discord.js";
+import { InteractionT } from "../../../types/InteractionT";
+import { Player, TeamInvite } from "../../../database/models";
+import { ITeam } from "../../../interfaces/schemas/ITeam";
+import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
+import { DotaRolesEnum } from "../../../enums/DotaRolesEnum";
+import teamInviteBtns from "../../ui-interface/btns/teamInviteBtns";
 
-const listener: ListenerType<ButtonInteraction> = {
-    name: 'cancel-team-invite',
-    execute: async interaction => {
+export default class extends AbstractListener<ButtonInteraction> {
+    async execute(interaction: ButtonInteraction & InteractionT) {
         const player = await Player.findOne({
             discord_id: interaction.user.id
         }).exec();
@@ -47,5 +47,3 @@ const listener: ListenerType<ButtonInteraction> = {
         });
     }
 }
-
-export default listener;

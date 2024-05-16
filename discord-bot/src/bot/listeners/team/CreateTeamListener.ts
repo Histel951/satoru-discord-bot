@@ -1,11 +1,11 @@
+import AbstractListener from "../AbstractListener";
+import getCurrentMember from "../../../utils/members/getCurrentMember";
 import { GuildMember, ModalSubmitInteraction } from "discord.js";
-import createTeam from "../../../../utils/team/createTeam";
-import getCurrentMember from "../../../../utils/members/getCurrentMember";
-import { ListenerType } from "../../../../types/ListenerTypes";
+import createTeam from "../../../utils/team/createTeam";
+import { InteractionT } from "../../../types/InteractionT";
 
-const listener: ListenerType<ModalSubmitInteraction> = {
-    name: 'create-team-modal',
-    execute: async interaction => {
+export default class extends AbstractListener<ModalSubmitInteraction> {
+    async execute(interaction: ModalSubmitInteraction & InteractionT) {
         const name = interaction.fields.getTextInputValue('input-team-name');
         const imageUrl = interaction.fields.getTextInputValue('input-file-url');
         const color = interaction.fields.getTextInputValue('input-color');
@@ -26,5 +26,3 @@ const listener: ListenerType<ModalSubmitInteraction> = {
         await interaction.reply({ content: `Команда ${name} создана!`, ephemeral: true });
     }
 }
-
-export default listener;

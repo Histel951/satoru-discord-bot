@@ -1,12 +1,12 @@
+import AbstractListener from "../AbstractListener";
 import { ButtonInteraction } from "discord.js";
-import getTeamInfoEmbed from "../../../../utils/team/getTeamInfoEmbed";
-import { ITeam } from "../../../../interfaces/schemas/ITeam";
-import { Player, TeamInvite } from "../../../../database/models";
-import { ListenerType } from "../../../../types/ListenerTypes";
+import { InteractionT } from "../../../types/InteractionT";
+import { Player, TeamInvite } from "../../../database/models";
+import { ITeam } from "../../../interfaces/schemas/ITeam";
+import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
 
-const listeners: ListenerType<ButtonInteraction> = {
-    name: 'accept-team-invite',
-    execute: async interaction => {
+export default class extends AbstractListener<ButtonInteraction> {
+    async execute(interaction: ButtonInteraction & InteractionT) {
         const player = await Player.findOne({
             discord_id: interaction.user.id
         }).exec();
@@ -41,5 +41,3 @@ const listeners: ListenerType<ButtonInteraction> = {
         });
     }
 }
-
-export default listeners;

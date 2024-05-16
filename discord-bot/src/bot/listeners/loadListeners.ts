@@ -1,27 +1,27 @@
 import { ClientT } from "../../types/ClientT";
 import { ListenerType } from "../../types/ListenerTypes";
-import sendDotaIdListener from "./auth/send-dota-id/sendDotaIdListener";
-import createTeamListener from "./team/create-team/createTeamListener";
 import { ButtonInteraction, ModalSubmitInteraction } from "discord.js";
-import cancelTeamInviteListener from "./team/cancel-team-invite/cancelTeamInviteListener";
-import acceptTeamInviteListener from "./team/accept-team-invite/acceptTeamInviteListener";
+import SendDotaIdListener from "./auth/SendDotaIdListener";
+import CreateTeamListener from "./team/CreateTeamListener";
+import CancelTeamInviteListener from "./team/CancelTeamInviteListener";
+import AcceptTeamInviteListener from "./team/AcceptTeamInviteListener";
 
 const modalSubmitsListeners: ListenerType<ModalSubmitInteraction>[] = [
-    sendDotaIdListener,
-    createTeamListener,
+    new SendDotaIdListener('player-registration'),
+    new CreateTeamListener('create-team-modal'),
 ];
 
 const buttonsListeners: ListenerType<ButtonInteraction>[] = [
-    cancelTeamInviteListener,
-    acceptTeamInviteListener,
+    new CancelTeamInviteListener('cancel-team-invite'),
+    new AcceptTeamInviteListener('accept-team-invite'),
 ];
 
 export default (client: ClientT) => {
     modalSubmitsListeners.forEach(listener => {
-        client.data?.listeners.modalSubmits.set(listener.name, listener);
+        client.data?.listeners.modalSubmits.set(listener.getName(), listener);
     });
 
     buttonsListeners.forEach(listener => {
-        client.data?.listeners.buttons.set(listener.name, listener);
-    })
+        client.data?.listeners.buttons.set(listener.getName(), listener);
+    });
 }
