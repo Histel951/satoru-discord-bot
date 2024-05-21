@@ -39,7 +39,7 @@ export default class extends AbstractCommand {
             removeRoleByName(member, rankName, interaction.guild?.roles as RoleManager)
         });
 
-        await addRoleByName(member, RolesEnum.Unproved, member.guild.roles)
+        await addRoleByName(member, RolesEnum.UnVerified, member.guild.roles)
 
         return interaction.reply({
             content: `Пользователь больше не зарегистрирован.`,

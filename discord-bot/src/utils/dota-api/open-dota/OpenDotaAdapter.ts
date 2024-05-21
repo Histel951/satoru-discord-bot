@@ -1,15 +1,15 @@
 import { DotaPlayerApiAdapter } from "../../../interfaces/dota-api/DotaPlayerApiAdapter";
 import { PlayerInfoT } from "../../../types/dota-api/adapter/PlayerInfoT";
-import { PlayerInfoResponseT } from "../../../types/dota-api/open-dota/responses/PlayerInfoResponseT";
+import { PlayerInfoOpenDotaResponseT } from "../../../types/dota-api/open-dota/responses/PlayerInfoOpenDotaResponseT";
 
-export default class implements DotaPlayerApiAdapter<PlayerInfoResponseT> {
-    playerInfo(response: PlayerInfoResponseT): PlayerInfoT {
+export default class implements DotaPlayerApiAdapter<PlayerInfoOpenDotaResponseT> {
+    playerInfo(response: PlayerInfoOpenDotaResponseT): PlayerInfoT {
         return {
-            account_id: response.profile.account_id,
-            nickname: response.profile.personaname,
-            avatar: response.profile.avatar,
-            rank_tier: response.rank_tier,
-            leaderboard_rank: response.leaderboard_rank,
+            steamAccountId: response.profile.account_id,
+            name: response.profile.personaname,
+            rank: response.rank_tier,
+            leaderboardRank: response.leaderboard_rank,
+            lastMatchDate: null
         };
     }
 }

@@ -10,7 +10,7 @@ export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction, { member }: TeamKickOptionsT) {
         await Player.updateOne({
-            discord_id: member.user.id,
+            discordId: member.user.id,
         }, {
             team_id: null,
         });

@@ -21,6 +21,10 @@ services:
             MONGO_PORT: ${MONGO_PORT:-27017}
             MONGO_DB: ${MONGO_DB:-satoro_bot}
             NODE_DOCKER_ENV: ${NODE_DOCKER_ENV:-20}
+            DOTA_API_PORT: ${DOTA_API_PORT:-open-dota}
+            STRATZ_DOTA_API_TOKEN: ${STRATZ_DOTA_API_TOKEN}
+            STRATZ_API_URL: ${STRATZ_API_URL:-https://api.stratz.com/graphql}
+            STRATZ_API_TYPE: ${STRATZ_API_TYPE:-graphiql}
         stop_grace_period: 40s
         networks:
             - app

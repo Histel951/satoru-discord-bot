@@ -5,13 +5,13 @@ import { Player, Team } from "../../database/models";
 import handleError from "../handleError";
 import {CatchErrorT} from "../../types/CatchErrorT";
 
-export default async ({ discord_id, name, image_url, color }: CreateTeamT): Promise<ITeam & Document | null> => {
+export default async ({ discordId, name, image_url, color }: CreateTeamT): Promise<ITeam & Document | null> => {
     try {
         // Находим игрока по Discord ID
-        const player = await Player.findOne({ discord_id }).exec();
+        const player = await Player.findOne({ discordId }).exec();
 
         if (!player) {
-            throw new Error(`Player with discord ID "${discord_id}" not found.`);
+            throw new Error(`Player with discord ID "${discordId}" not found.`);
         }
 
         // Создаем новую команду с указанным именем и владельцем (игроком)
@@ -22,7 +22,7 @@ export default async ({ discord_id, name, image_url, color }: CreateTeamT): Prom
             color,
         });
 
-        player.team_id = team.id;
+        player.teamId = team.id;
 
         // Сохраняем команду
         await team.save();

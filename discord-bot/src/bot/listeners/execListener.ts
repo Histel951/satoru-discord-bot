@@ -33,7 +33,12 @@ export default async (interaction: InteractionT) => {
     }
 
     if (interaction.isModalSubmit()) {
-        await listeners.modalSubmits.get(interaction.customId)?.execute(interaction);
+        const listener = listeners?.modalSubmits?.get(interaction.customId)
+
+        if (listener?.execute) {
+            await listener?.execute(interaction);
+        }
+
         return;
     }
 
@@ -42,7 +47,7 @@ export default async (interaction: InteractionT) => {
     if (interaction.isButton()) {
         const listener = listeners.buttons.get(interaction.customId);
 
-        if (listener) {
+        if (listener?.execute) {
             handleMessageComponent<ButtonInteraction>(ComponentType.Button, listener.execute, interaction, userFilter);
         }
     }

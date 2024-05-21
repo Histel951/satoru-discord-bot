@@ -13,7 +13,7 @@ export default class extends AbstractListener<ModalSubmitInteraction> {
         const member = await getCurrentMember(interaction) as GuildMember;
 
         const team = await createTeam({
-            discord_id: interaction.user.id,
+            discordId: interaction.user.id,
             name,
             image_url: imageUrl,
             color,

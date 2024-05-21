@@ -1,17 +1,24 @@
 import { DotaApiClient } from "../../../interfaces/dota-api/DotaApiClient";
-import { AxiosInstance } from "axios";
-import { PlayerInfoResponseT } from "../../../types/dota-api/open-dota/responses/PlayerInfoResponseT";
+import axios, { AxiosInstance } from "axios";
+import { PlayerInfoOpenDotaResponseT } from "../../../types/dota-api/open-dota/responses/PlayerInfoOpenDotaResponseT";
 
-export default class OpenDotaClient implements DotaApiClient<PlayerInfoResponseT> {
+export default class implements DotaApiClient<PlayerInfoOpenDotaResponseT> {
 
     private readonly axios: AxiosInstance;
 
-    constructor(axios: AxiosInstance) {
-        this.axios = axios;
+    constructor() {
+        this.axios = axios.create({
+            baseURL: process.env.OPEN_DOTA_API_URL,
+            timeout: 1000,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Cache-Control': 'max-age=0'
+            }
+        });
     }
 
-    async playerInfo(playerId: number): Promise<PlayerInfoResponseT> {
-        const { data } = await this.axios.get<PlayerInfoResponseT>(`/players/${playerId}`);
+    async playerInfo(playerId: number): Promise<PlayerInfoOpenDotaResponseT> {
+        const { data } = await this.axios.get<PlayerInfoOpenDotaResponseT>(`/players/${playerId}`);
         return data;
     }
 }

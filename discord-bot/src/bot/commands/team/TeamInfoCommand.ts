@@ -38,7 +38,7 @@ export default class extends AbstractCommand {
         }
 
         const players = await Player.find({
-            team_id: team?._id,
+            teamId: team?._id,
         }).exec();
 
         return {

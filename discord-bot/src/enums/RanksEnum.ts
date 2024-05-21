@@ -1,6 +1,5 @@
 export enum RanksEnum {
-    // @ts-ignore
-    "Uncalibrated" = null,
+    "Calibration" = 0,
     "Herald I" = 11,
     "Herald II",
     "Herald III",

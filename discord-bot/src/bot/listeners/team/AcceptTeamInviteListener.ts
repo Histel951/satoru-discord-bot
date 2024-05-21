@@ -8,7 +8,7 @@ import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
 export default class extends AbstractListener<ButtonInteraction> {
     async execute(interaction: ButtonInteraction & InteractionT) {
         const player = await Player.findOne({
-            discord_id: interaction.user.id
+            discordId: interaction.user.id
         }).exec();
 
         const invite = await TeamInvite.findOne({

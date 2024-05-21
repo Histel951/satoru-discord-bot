@@ -10,7 +10,7 @@ import teamInviteBtns from "../../ui-interface/btns/teamInviteBtns";
 export default class extends AbstractListener<ButtonInteraction> {
     async execute(interaction: ButtonInteraction & InteractionT) {
         const player = await Player.findOne({
-            discord_id: interaction.user.id
+            discordId: interaction.user.id
         }).exec();
 
         await TeamInvite.deleteOne({

@@ -11,12 +11,12 @@ export default class extends AbstractCommand {
     async execute(interaction: CommandInteraction, { invitedPlayer, teamOwner, role }: InviteToTeamOptionsT) {
         await TeamInvite.create({
             player_id: invitedPlayer.id,
-            team_id: teamOwner.team_id,
+            team_id: teamOwner.teamId,
             role,
         });
 
         await interaction.reply({
-            content: `Вы пригласили в команду игрока ${invitedPlayer.personaname}.`,
+            content: `Вы пригласили в команду игрока ${invitedPlayer.name}.`,
             ephemeral: true,
         });
     }
@@ -41,11 +41,11 @@ export default class extends AbstractCommand {
 
 
         const teamOwner = await Player.findOne({
-            discord_id: interaction.user.id
+            discordId: interaction.user.id
         }).exec();
 
         const invitedPlayer = await Player.findOne({
-            discord_id: member.user.id
+            discordId: member.user.id
         }).exec()
 
         if (!invitedPlayer) {
@@ -59,7 +59,7 @@ export default class extends AbstractCommand {
             };
         }
 
-        if (!teamOwner?.team_id) {
+        if (!teamOwner?.teamId) {
             return {
                 result: false,
                 interaction,

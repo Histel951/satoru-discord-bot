@@ -12,7 +12,7 @@ export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction, { team, invite }: AcceptInviteOptionsT) {
         await Player.updateOne({
-            discord_id: interaction.user.id,
+            discordId: interaction.user.id,
         }, {
             team_id: team._id,
             role: invite.role,
@@ -48,7 +48,7 @@ export default class extends AbstractCommand {
         }
 
         const player = await Player.findOne<IPlayer>({
-            discord_id: interaction.user.id,
+            discordId: interaction.user.id,
         }).exec() as IPlayer;
 
         const invite = await TeamInvite.findOne<ITeamInvite>({

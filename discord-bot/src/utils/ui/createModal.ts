@@ -9,7 +9,7 @@ export default <ComponentBuilderType extends AnyComponentBuilder>({ customId, ti
 
     const modal = new ModalBuilder()
         .setCustomId(customId)
-        .setTitle(title)
+        .setTitle(title);
 
     if (rows) {
         const componentRows = [...(rows as ComponentBuilderType[])].map(

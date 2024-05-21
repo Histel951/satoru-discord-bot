@@ -1,4 +1,4 @@
-export type PlayerInfoResponseT = {
+export type PlayerInfoOpenDotaResponseT = {
     profile: {
         account_id: number,
         personaname: string,

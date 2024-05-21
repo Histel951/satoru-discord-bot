@@ -1,4 +1,4 @@
-import {GuildMember, RoleManager} from "discord.js";
+import { GuildMember, RoleManager } from "discord.js";
 import findRoleByName from "./findRoleByName";
 import deleteRole from "./deleteRole";
 

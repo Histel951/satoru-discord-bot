@@ -17,7 +17,7 @@ const deployCommands = commands.map(command => {
 
         commandOptions.forEach(option => {
             builder.addStringOption(option)
-        })
+        });
     }
 
     return builder;

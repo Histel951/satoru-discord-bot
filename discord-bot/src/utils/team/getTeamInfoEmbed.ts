@@ -14,8 +14,8 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
     if (players) {
         players.forEach(player => {
             embed.setFields({
-                name: player.nickname,
-                value: DotaRolesEnum[player.role as number],
+                name: player.name,
+                value: DotaRolesEnum[player.position as number],
             });
         });
     } else {
@@ -25,8 +25,8 @@ export default async (team: ITeam, { players }: { players?: IPlayer[] & Document
 
         players.forEach(player => {
             embed.setFields({
-                name: player.nickname,
-                value: DotaRolesEnum[player.role as number],
+                name: player.name,
+                value: DotaRolesEnum[player.position as number],
             });
         });
     }
