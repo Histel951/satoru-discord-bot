@@ -1,7 +1,7 @@
 import {
     GatewayIntentBits,
     Events,
-    GuildMember,
+    GuildMember, Message, CollectorFilter, ButtonInteraction, ModalSubmitInteraction,
 } from "discord.js";
 import loadCommands from "./bot/commands/loadCommands";
 import loadListeners from "./bot/listeners/loadListeners";
@@ -13,6 +13,8 @@ import initClient from "./utils/initClient";
 import joinToGuildHandler from "./utils/joinToGuildHandler";
 import { CatchErrorT } from "./types/CatchErrorT";
 import handleError from "./utils/handleError";
+import { ListenerInteractionT as LInteractionT } from "./types/ListenerInteractionT";
+import { ListenerType } from "./types/ListenerTypes";
 
 const client = initClient({
     intents: [
@@ -23,6 +25,20 @@ const client = initClient({
         GatewayIntentBits.GuildMembers,
     ]
 });
+
+const listenersExecutes = async (interaction: InteractionT) => {
+    if (!interaction.client.data) {
+        return;
+    }
+
+    if (interaction.isButton()) {
+        await execListener<ListenerType<ButtonInteraction>>(interaction, interaction.client.data.listeners.buttons);
+    }
+
+    if (interaction.isModalSubmit()) {
+        await execListener<ListenerType<ModalSubmitInteraction>>(interaction, interaction.client.data.listeners.modalSubmits);
+    }
+}
 
 client.on(Events.ClientReady, async () => {
     console.log('Client ready!');
@@ -38,9 +54,27 @@ client.on(Events.ClientReady, async () => {
 });
 
 client.on(Events.InteractionCreate, async (interaction: InteractionT) => {
-    await execCommand(interaction);
-    await execListener(interaction);
+    if (interaction.isCommand()) {
+        await execCommand(interaction);
+    }
+
+    if (!interaction.client.data?.listeners) {
+        return;
+    }
+
+    await listenersExecutes(interaction);
 });
+
+client.on(Events.MessageCreate, async (message: Message) => {
+    const filter: CollectorFilter<[LInteractionT]> = i => i.user.id === message.author.id;
+
+    const collectedInteraction = await message.awaitMessageComponent({
+        time: 120000,
+        filter
+    }).then(async (interaction) => {
+        await listenersExecutes(interaction);
+    });
+})
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     await joinToGuildHandler(member);

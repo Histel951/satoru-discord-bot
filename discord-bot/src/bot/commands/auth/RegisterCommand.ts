@@ -1,35 +1,19 @@
-import { CommandInteraction, RoleManager } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { Player } from "../../../database/models";
 import showPlayerInfo from "../../../utils/me/showPlayerInfo";
 import AbstractCommand from "../AbstractCommand";
-import updatePlayerInfo from "../../../utils/dota/updatePlayerInfo";
-import addRankRole from "../../../utils/dota/addRankRole";
-import addRoleByName from "../../../utils/roles/addRoleByName";
-import { RolesEnum } from "../../../enums/RolesEnum";
-import removeRoleByName from "../../../utils/roles/removeRoleByName";
 import { CommandOptionSetCallbackT } from "../../../interfaces/CommandI";
-import createDotaApiPort from "../../../utils/dota-api/createDotaApiPort";
+import registerMember from "../../../utils/auth/registerMember";
 
 export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction, { dotaId }: { dotaId: string | number }) {
-        const dotaApi = createDotaApiPort();
-
         try {
-            const player = await updatePlayerInfo(interaction.user.id, dotaId, dotaApi);
-
-            const member = await interaction.guild?.members.fetch(interaction.user.id);
-
-            if (member) {
-                await addRankRole(member, player.rank, interaction.guild?.roles as RoleManager);
-                await addRoleByName(member, RolesEnum.Verified, interaction.guild?.roles as RoleManager);
-                await removeRoleByName(member, RolesEnum.UnVerified, interaction.guild?.roles as RoleManager);
-            }
-
-            await interaction.reply({ content: showPlayerInfo(player), ephemeral: true });
+            await registerMember(interaction, dotaId);
         } catch (error) {
             console.error("An error occurred:", error);
-            await interaction.reply({ content: "An error occurred while processing your request.", ephemeral: true });
+
+            return await interaction.reply({ content: "An error occurred while processing your request.", ephemeral: true });
         }
 
         return interaction.reply({

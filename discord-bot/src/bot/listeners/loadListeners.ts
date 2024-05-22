@@ -4,14 +4,18 @@ import { ButtonInteraction, ModalSubmitInteraction } from "discord.js";
 import CreateTeamListener from "./team/CreateTeamListener";
 import CancelTeamInviteListener from "./team/CancelTeamInviteListener";
 import AcceptTeamInviteListener from "./team/AcceptTeamInviteListener";
+import RegisterModalListener from "./auth/OpenRegisterModalBtnListener";
+import RegisterModalSubmitListener from "./auth/RegisterModalSubmitListener";
 
 const modalSubmitsListeners: ListenerType<ModalSubmitInteraction>[] = [
     new CreateTeamListener('create-team-modal'),
+    new RegisterModalSubmitListener('register-modal-submit'),
 ];
 
 const buttonsListeners: ListenerType<ButtonInteraction>[] = [
     new CancelTeamInviteListener('cancel-team-invite'),
     new AcceptTeamInviteListener('accept-team-invite'),
+    new RegisterModalListener('open-register-modal-btn'),
 ];
 
 export default (client: ClientT) => {

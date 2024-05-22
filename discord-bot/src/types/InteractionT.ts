@@ -4,5 +4,6 @@ import {
 import { ClientT } from "./ClientT";
 
 export type InteractionT = Interaction & {
-    client: ClientT,
+    client: ClientT
+    customId?: string
 }

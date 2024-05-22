@@ -9,6 +9,7 @@ import TeamKickCommand from "../bot/commands/team/TeamKickCommand";
 import TeamInfoCommand from "../bot/commands/team/TeamInfoCommand";
 import InviteListCommand from "../bot/commands/team/InviteListCommand";
 import TournamentCreateCommand from "../bot/commands/tournament/tournamentCreateCommand";
+import SendBotMessageCommand from "../bot/commands/utils/SendBotMessageCommand";
 
 export default (): CommandI<CommandInteraction>[] => [
     new RegisterCommand('register', 'Зарегистрироваться на сервере как игрок'),
@@ -20,4 +21,5 @@ export default (): CommandI<CommandInteraction>[] => [
     new TeamInfoCommand('team-info', 'Информация по команде.'),
     new InviteListCommand('invite-list', 'Получить список всех приглашений в команду.'),
     new TournamentCreateCommand('tournament-create', 'Вызывает панельку для создания турнира'),
+    new SendBotMessageCommand('send-message', 'Отправляет сообщение от имени бота.'),
 ];

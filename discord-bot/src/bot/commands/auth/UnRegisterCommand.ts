@@ -21,7 +21,7 @@ export default class extends AbstractCommand {
             });
         }
 
-        await removeRoleByName(member, RolesEnum.Approved, interaction.guild?.roles as RoleManager);
+        await removeRoleByName(member, RolesEnum.Verified, interaction.guild?.roles as RoleManager);
 
         const ranks = [
             RolesEnum.Uncalibrated,

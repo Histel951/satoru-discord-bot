@@ -1,5 +1,4 @@
 export enum RolesEnum {
-    Approved = "approved",
     Verified = 'Verified',
     UnVerified = "UnVerified",
     Uncalibrated = "Калибровка",

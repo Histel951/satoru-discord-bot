@@ -52,22 +52,20 @@ const executeWithMiddleware = async (interaction: CommandInteraction, command: C
     }
 }
 
-export default async (interaction: InteractionT) => {
-    if (interaction.isCommand()) {
-        const command = interaction.client.data?.commands.get(interaction.commandName);
+export default async (interaction: CommandInteraction & InteractionT) => {
+    const command = interaction.client.data?.commands.get(interaction.commandName);
 
-        if (!command) {
-            return;
-        }
+    if (!command) {
+        return;
+    }
 
-        if (command.middleware) {
-            await executeWithMiddleware(interaction, command);
-            return;
-        }
+    if (command.middleware) {
+        await executeWithMiddleware(interaction, command);
+        return;
+    }
 
-        if (command.execute) {
-            await command.execute(interaction, {});
-            return;
-        }
+    if (command.execute) {
+        await command.execute(interaction, {});
+        return;
     }
 }
