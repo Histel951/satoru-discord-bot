@@ -6,13 +6,13 @@ import RanksObjectEnumWithNumber from "../../enums/RanksObjectEnumWithNumber";
 import { RanksEnum } from "../../enums/RanksEnum";
 
 const generatePlayerInfo = (player: IPlayer) => {
-    let value = `     Роль: Керри\n    Ранг: ${RanksObjectEnumWithNumber[player.rank as RanksEnum]}`;
+    let value = `Роль: Керри\nРанг: ${RanksObjectEnumWithNumber[player.rank as RanksEnum]}`;
 
     if (player.rank === RanksEnum.Immortal && player.leaderboardRank) {
         value += ` #${player.leaderboardRank}`;
     }
 
-    value += `\n    🆔: ${player.steamAccountId}`;
+    value += `\nDota id: ${player.steamAccountId}`;
 
     return {
         name: `- ${player.name}`,
