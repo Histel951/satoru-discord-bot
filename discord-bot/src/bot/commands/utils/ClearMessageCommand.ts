@@ -8,17 +8,21 @@ export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction) {
         const amount = interaction.options.get('amount')?.value ?? 10;
-        const limit = Number(amount) + 1;
 
         try {
-            const fetched = await interaction.channel?.messages.fetch({ limit });
+            const fetched = await interaction.channel?.messages.fetch({
+                limit: Number(amount)
+            });
 
-            fetched?.forEach(message => {
-                message.delete();
+            fetched?.forEach(message => message.delete());
+
+            await interaction.reply({
+                content: `Очистка ${amount} сообщений.`,
+                ephemeral: true,
             })
         } catch (error: CatchErrorT) {
             await interaction.reply({
-                content: 'Чат не очищен, ошибка: ' + handleError(error),
+                content: 'Сообщения не очищен, ошибка: ' + handleError(error),
                 ephemeral: true,
             });
         }
@@ -30,6 +34,7 @@ export default class extends AbstractCommand {
                 .setName('amount')
                 .setDescription('Количество последних сообщений которое надо очистить.')
                 .setMinLength(1)
+                .setRequired(false)
         ];
     }
 }
