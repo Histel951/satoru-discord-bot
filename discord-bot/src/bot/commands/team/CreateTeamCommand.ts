@@ -26,7 +26,7 @@ export default class extends AbstractCommand {
             };
         }
 
-        if (player.teamId) {
+        if (player.team) {
             return {
                 result: false,
                 interaction,

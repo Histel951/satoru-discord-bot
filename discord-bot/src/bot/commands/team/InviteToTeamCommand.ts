@@ -11,7 +11,7 @@ export default class extends AbstractCommand {
     async execute(interaction: CommandInteraction, { invitedPlayer, teamOwner, role }: InviteToTeamOptionsT) {
         await TeamInvite.create({
             player_id: invitedPlayer.id,
-            team_id: teamOwner.teamId,
+            team_id: teamOwner.team,
             role,
         });
 
@@ -59,7 +59,7 @@ export default class extends AbstractCommand {
             };
         }
 
-        if (!teamOwner?.teamId) {
+        if (!teamOwner?.team) {
             return {
                 result: false,
                 interaction,

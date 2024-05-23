@@ -14,14 +14,22 @@ export default class extends AbstractCommand {
                 limit: Number(amount)
             });
 
-            fetched?.forEach(message => message.delete());
+            if (fetched) {
+                for (const message of fetched) {
+                    try {
+                        await message[1]?.delete();
+                    } catch (e) {
+                        console.debug(handleError(e));
+                    }
+                }
+            }
 
-            await interaction.reply({
+            return await interaction.reply({
                 content: `Очистка ${amount} сообщений.`,
                 ephemeral: true,
             })
         } catch (error: CatchErrorT) {
-            await interaction.reply({
+            return await interaction.reply({
                 content: 'Сообщения не очищен, ошибка: ' + handleError(error),
                 ephemeral: true,
             });

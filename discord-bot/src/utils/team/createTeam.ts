@@ -19,11 +19,11 @@ export default async ({ guildMember, name, image_url }: CreateTeamT): Promise<IT
         // Создаем новую команду с указанным именем и владельцем (игроком)
         const team = new Team({
             name,
-            player_id: player._id,
+            owner: player._id,
             image_url,
         });
 
-        player.teamId = team.id;
+        player.team = team.id;
 
         // Сохраняем команду
         await team.save();

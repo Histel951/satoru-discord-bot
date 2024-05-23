@@ -1,13 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { ITeam } from "./ITeam";
 
 export interface IPlayer {
     _id: mongoose.Types.ObjectId
     discordId: string
-    teamId: {
+    team: {
         type: mongoose.Types.ObjectId
         ref: string
         default: null
-    }
+    } & Document & ITeam
     steamAccountId: string
     name: string
     lastMatchDate: number | null

@@ -2,18 +2,17 @@ import { CommandOptionSetCallbackT } from "../../../interfaces/CommandI";
 import { CommandInteraction } from "discord.js";
 import { ITeam } from "../../../interfaces/schemas/ITeam";
 import { Document } from "mongoose";
-import { IPlayer } from "../../../interfaces/schemas/IPlayer";
 import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
 import { Player, Team } from "../../../database/models";
 import AbstractCommand from "../AbstractCommand";
 
-type TeamInfoOptionT = { team: ITeam & Document, players: IPlayer[] & Document[] };
+type TeamInfoOptionT = { team: ITeam & Document };
 
 export default class extends AbstractCommand {
 
-    async execute(interaction: CommandInteraction, { team, players }: TeamInfoOptionT) {
+    async execute(interaction: CommandInteraction, { team }: TeamInfoOptionT) {
         return await interaction.reply({
-            embeds: [await getTeamInfoEmbed(team, { players })],
+            embeds: [await getTeamInfoEmbed(team)],
             ephemeral: true,
         });
     }
@@ -37,16 +36,11 @@ export default class extends AbstractCommand {
             };
         }
 
-        const players = await Player.find({
-            teamId: team?._id,
-        }).exec();
-
         return {
             result: true,
             interaction,
             options: {
                 team,
-                players,
             }
         }
     }

@@ -8,5 +8,5 @@ export interface PlayerInfoI {
     lastMatchDate: string|null
     rank: RanksT|string|null
     leaderboardRank: number|null
-    teamId: string
+    team: string
 }

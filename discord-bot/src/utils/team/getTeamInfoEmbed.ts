@@ -1,35 +1,39 @@
 import { ITeam } from "../../interfaces/schemas/ITeam";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
 import { EmbedBuilder } from "discord.js";
-import { DotaRolesEnum } from "../../enums/DotaRolesEnum";
 import { Player } from "../../database/models";
-import { Document } from "mongoose";
+import RanksObjectEnumWithNumber from "../../enums/RanksObjectEnumWithNumber";
+import { RanksEnum } from "../../enums/RanksEnum";
 
-export default async (team: ITeam, { players }: { players?: IPlayer[] & Document[] } = {}): Promise<EmbedBuilder> => {
+const generatePlayerInfo = (player: IPlayer) => {
+    let value = `     Роль: Керри\n    Ранг: ${RanksObjectEnumWithNumber[player.rank as RanksEnum]}`;
+
+    if (player.rank === RanksEnum.Immortal && player.leaderboardRank) {
+        value += ` #${player.leaderboardRank}`;
+    }
+
+    value += `\n    🆔: ${player.steamAccountId}`;
+
+    return {
+        name: `- ${player.name}`,
+        value,
+    }
+}
+
+const generateTeamDescription = (team: ITeam) => `🏆 Рейтинг: ${team.ratingPoints}\n\n👥 Состав команды: `;
+
+export default async (team: ITeam): Promise<EmbedBuilder> => {
     const embed = new EmbedBuilder()
         .setThumbnail(team.image_url)
-        .setDescription('Состав команды: ')
+        .setDescription(generateTeamDescription(team))
         .setTitle(team.name);
 
-    if (players) {
-        players.forEach(player => {
-            embed.setFields({
-                name: player.name,
-                value: DotaRolesEnum[player.position as number],
-            });
-        });
-    } else {
-        const players = await Player.find({
-            team_id: team._id,
-        }).exec();
+    const players = await Player.find({
+        team: team._id,
+    }).exec();
 
-        players.forEach(player => {
-            embed.setFields({
-                name: player.name,
-                value: DotaRolesEnum[player.position as number],
-            });
-        });
-    }
+    const fields = players.map(player => generatePlayerInfo(player));
+    embed.setFields(fields);
 
     return embed;
 }

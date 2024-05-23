@@ -10,7 +10,7 @@ export default class extends AbstractListener<ButtonInteraction> {
             discordId: interaction.user.id
         }).exec();
 
-        if (player && player.teamId) {
+        if (player && player.team) {
            return await interaction.reply({
                content: 'Вы уже состоите в команде.',
                ephemeral: true,

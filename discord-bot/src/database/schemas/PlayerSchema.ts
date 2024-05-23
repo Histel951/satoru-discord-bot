@@ -3,8 +3,8 @@ import { IPlayer } from "../../interfaces/schemas/IPlayer";
 
 export default new Schema<IPlayer & Document>({
     discordId: String,
-    teamId: {
-        type: Types.ObjectId,
+    team: {
+        type: Schema.Types.ObjectId,
         ref: 'Team',
         default: null,
     },
