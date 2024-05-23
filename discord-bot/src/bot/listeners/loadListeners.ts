@@ -6,6 +6,7 @@ import CancelTeamInviteListener from "./team/CancelTeamInviteListener";
 import AcceptTeamInviteListener from "./team/AcceptTeamInviteListener";
 import RegisterModalListener from "./auth/OpenRegisterModalBtnListener";
 import RegisterModalSubmitListener from "./auth/RegisterModalSubmitListener";
+import CreateTeamBtnListener from "./team/CreateTeamBtnListener";
 
 const modalSubmitsListeners: ListenerType<ModalSubmitInteraction>[] = [
     new CreateTeamListener('create-team-modal'),
@@ -16,6 +17,7 @@ const buttonsListeners: ListenerType<ButtonInteraction>[] = [
     new CancelTeamInviteListener('cancel-team-invite'),
     new AcceptTeamInviteListener('accept-team-invite'),
     new RegisterModalListener('open-register-modal-btn'),
+    new CreateTeamBtnListener('create-team-btn'),
 ];
 
 export default (client: ClientT) => {

@@ -11,8 +11,8 @@ export default async (interaction: BaseInteraction, dotaId: string | number): Pr
     const member = await interaction.guild?.members.fetch(interaction.user.id);
 
     if (member) {
-        await addRankRole(member, player.rank, interaction.guild?.roles as RoleManager);
-        await addRoleByName(member, RolesEnum.Verified, interaction.guild?.roles as RoleManager);
-        await removeRoleByName(member, RolesEnum.UnVerified, interaction.guild?.roles as RoleManager);
+        await addRankRole(member, player.rank);
+        await addRoleByName(member, RolesEnum.Verified);
+        await removeRoleByName(member, RolesEnum.UnVerified);
     }
 }

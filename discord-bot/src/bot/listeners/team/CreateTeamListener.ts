@@ -8,15 +8,13 @@ export default class extends AbstractListener<ModalSubmitInteraction> {
     async execute(interaction: ModalSubmitInteraction & InteractionT) {
         const name = interaction.fields.getTextInputValue('input-team-name');
         const imageUrl = interaction.fields.getTextInputValue('input-file-url');
-        const color = interaction.fields.getTextInputValue('input-color');
 
         const member = await getCurrentMember(interaction) as GuildMember;
 
         const team = await createTeam({
-            discordId: interaction.user.id,
+            guildMember: member,
             name,
             image_url: imageUrl,
-            color,
         });
 
         if (!team) {

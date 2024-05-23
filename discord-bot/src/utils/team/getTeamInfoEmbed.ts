@@ -6,7 +6,7 @@ import { Player } from "../../database/models";
 import { Document } from "mongoose";
 
 export default async (team: ITeam, { players }: { players?: IPlayer[] & Document[] } = {}): Promise<EmbedBuilder> => {
-    const embed = new EmbedBuilder().setColor(team.color)
+    const embed = new EmbedBuilder()
         .setThumbnail(team.image_url)
         .setDescription('Состав команды: ')
         .setTitle(team.name);

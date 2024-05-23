@@ -1,6 +1,7 @@
 export enum RolesEnum {
     Verified = 'Verified',
     UnVerified = "UnVerified",
+    TeamLeader = "🏅Капитан команды",
     Uncalibrated = "Калибровка",
     Herald = "Рекрут",
     Guardian = "Страж",

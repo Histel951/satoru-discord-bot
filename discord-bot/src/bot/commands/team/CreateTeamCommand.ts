@@ -42,17 +42,4 @@ export default class extends AbstractCommand {
             interaction,
         };
     }
-
-    getOptions(): CommandOptionSetCallbackT[] {
-        return [
-            option =>
-                option.setName('tag')
-                    .setDescription('Tag пользователя.')
-                    .setRequired(true),
-            option =>
-                option.setName('role')
-                    .setDescription('Роль игрока в команде')
-                    .setRequired(true)
-        ]
-    }
 }

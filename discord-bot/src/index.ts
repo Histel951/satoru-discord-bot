@@ -68,12 +68,14 @@ client.on(Events.InteractionCreate, async (interaction: InteractionT) => {
 client.on(Events.MessageCreate, async (message: Message) => {
     const filter: CollectorFilter<[LInteractionT]> = i => i.user.id === message.author.id;
 
-    await message.awaitMessageComponent({
-        time: 120000,
-        filter
-    }).then(async (interaction) => {
-        await listenersExecutes(interaction);
-    });
+    try {
+        await message.awaitMessageComponent({
+            time: 120000,
+            filter
+        }).then(async (interaction) => {
+            await listenersExecutes(interaction);
+        });
+    } catch (e) {}
 });
 
 client.on(Events.GuildMemberAdd, async (member: GuildMember) => {

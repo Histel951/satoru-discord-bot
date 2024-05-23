@@ -17,11 +17,5 @@ export default (): ModalBuilder => createModal<TextInputBuilder>({
             style: TextInputStyle.Short,
             required: false,
         }),
-        createInput({
-            customId: 'input-color',
-            label: 'Цвет команды',
-            style: TextInputStyle.Short,
-            required: false,
-        }),
     ],
 });

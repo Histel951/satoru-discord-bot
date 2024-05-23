@@ -1,6 +1,7 @@
+import { GuildMember } from "discord.js";
+
 export type CreateTeamT = {
-    discordId: string
+    guildMember: GuildMember
     name: string
     image_url?: string
-    color: string | null
 }

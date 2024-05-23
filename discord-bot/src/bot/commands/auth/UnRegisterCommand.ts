@@ -21,7 +21,7 @@ export default class extends AbstractCommand {
             });
         }
 
-        await removeRoleByName(member, RolesEnum.Verified, interaction.guild?.roles as RoleManager);
+        await removeRoleByName(member, RolesEnum.Verified);
 
         const ranks = [
             RolesEnum.Uncalibrated,
@@ -36,10 +36,10 @@ export default class extends AbstractCommand {
         ];
 
         ranks.forEach(rankName => {
-            removeRoleByName(member, rankName, interaction.guild?.roles as RoleManager)
+            removeRoleByName(member, rankName)
         });
 
-        await addRoleByName(member, RolesEnum.UnVerified, member.guild.roles)
+        await addRoleByName(member, RolesEnum.UnVerified)
 
         return interaction.reply({
             content: `Пользователь больше не зарегистрирован.`,
