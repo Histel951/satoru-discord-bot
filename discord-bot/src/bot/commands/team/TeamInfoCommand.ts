@@ -12,7 +12,7 @@ export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction, { team }: TeamInfoOptionT) {
         return await interaction.reply({
-            embeds: [await getTeamInfoEmbed(team)],
+            embeds: [await getTeamInfoEmbed(team, interaction)],
             ephemeral: true,
         });
     }

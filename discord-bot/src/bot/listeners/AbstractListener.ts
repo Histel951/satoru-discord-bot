@@ -1,7 +1,8 @@
-import {ListenerExec, ListenerType} from "../../types/ListenerTypes";
+import { ListenerResponse, ListenerType } from "../../types/ListenerTypes";
 import { InteractionT } from "../../types/InteractionT";
+import { BaseInteraction } from "discord.js";
 
-export default abstract class<InteractionListenerT> implements ListenerType<InteractionListenerT & InteractionT> {
+export default abstract class<InteractionListenerT extends InteractionT & BaseInteraction> implements ListenerType {
 
     private readonly name: string;
 
@@ -12,4 +13,6 @@ export default abstract class<InteractionListenerT> implements ListenerType<Inte
     getName() {
         return this.name;
     }
+
+    abstract execute(interaction: InteractionListenerT): ListenerResponse;
 }

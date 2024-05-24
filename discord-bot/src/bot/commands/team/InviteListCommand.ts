@@ -30,7 +30,7 @@ export default class extends AbstractCommand {
 
         const team = invite.team_id as ITeam;
 
-        const teamEmbed = await getTeamInfoEmbed(team);
+        const teamEmbed = await getTeamInfoEmbed(team, interaction);
         teamEmbed.setTitle(`Приглашение в ${team.name}`);
         teamEmbed.setDescription(`
     Роль: ${DotaRolesEnum[invite.role]}

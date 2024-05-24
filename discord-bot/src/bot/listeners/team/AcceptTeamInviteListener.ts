@@ -23,7 +23,7 @@ export default class extends AbstractListener<ButtonInteraction> {
             team_id: invite!.team_id
         }).exec();
 
-        const teamEmbed = await getTeamInfoEmbed(team);
+        const teamEmbed = await getTeamInfoEmbed(team, interaction);
         teamEmbed.setTitle(team.name);
         teamEmbed.setDescription(`
     Средний рейтинг: 4500

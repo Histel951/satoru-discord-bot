@@ -1,7 +1,6 @@
 import { Player } from "../../database/models";
 import { IPlayer } from "../../interfaces/schemas/IPlayer";
 import { Document } from "mongoose";
-import { DotaApiPortI } from "../../interfaces/dota-api/DotaApiPortI";
 import createDotaApiPort from "../dota-api/createDotaApiPort";
 
 export default async (discordId: string, dotaId: number | string): Promise<IPlayer & Document> => {
@@ -9,7 +8,7 @@ export default async (discordId: string, dotaId: number | string): Promise<IPlay
     const data = await dotaApi.playerInfo(Number(dotaId));
 
     return await Player.findOneAndUpdate(
-        { discordId: discordId },
+        { discordId },
         data,
         { upsert: true, new: true },
     ).exec();

@@ -9,6 +9,7 @@ export default (clientOptions: ClientOptions): ClientT => {
         listeners: {
             modalSubmits: new Collection(),
             buttons: new Collection(),
+            buttonsData: new Collection(),
         },
     };
 

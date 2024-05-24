@@ -1,9 +1,9 @@
 import { InteractionT } from "../../types/InteractionT";
-import {BaseInteraction, Collection, MessageComponentInteraction} from "discord.js";
-import {ListenerType} from "../../types/ListenerTypes";
+import { BaseInteraction, Collection } from "discord.js";
+import AbstractListener from "./AbstractListener";
 
-export default async <ListenerT extends ListenerType<any>>
-(interaction: InteractionT, listeners: Collection<string, ListenerT>) => {
+export default async <Interaction extends InteractionT & BaseInteraction>
+(interaction: Interaction, listeners: Collection<string, AbstractListener<Interaction>>) => {
     if (!interaction.customId) {
         return;
     }

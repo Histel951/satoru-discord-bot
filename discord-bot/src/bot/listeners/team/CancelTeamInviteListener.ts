@@ -1,6 +1,5 @@
 import AbstractListener from "../AbstractListener";
 import { ButtonInteraction } from "discord.js";
-import { InteractionT } from "../../../types/InteractionT";
 import { Player, TeamInvite } from "../../../database/models";
 import { ITeam } from "../../../interfaces/schemas/ITeam";
 import getTeamInfoEmbed from "../../../utils/team/getTeamInfoEmbed";
@@ -8,7 +7,8 @@ import { DotaRolesEnum } from "../../../enums/DotaRolesEnum";
 import teamInviteBtns from "../../ui-interface/btns/teamInviteBtns";
 
 export default class extends AbstractListener<ButtonInteraction> {
-    async execute(interaction: ButtonInteraction & InteractionT) {
+
+    async execute(interaction: ButtonInteraction) {
         const player = await Player.findOne({
             discordId: interaction.user.id
         }).exec();
@@ -24,7 +24,7 @@ export default class extends AbstractListener<ButtonInteraction> {
         }).exec();
 
         if (!newInvite) {
-            return interaction.update({
+            return await interaction.update({
                 content: 'У тебя больше нет приглашений.',
                 embeds: [],
                 components: [],
@@ -33,7 +33,7 @@ export default class extends AbstractListener<ButtonInteraction> {
 
         const team = newInvite.team_id as ITeam;
 
-        const teamEmbed = await getTeamInfoEmbed(team);
+        const teamEmbed = await getTeamInfoEmbed(team, interaction);
         teamEmbed.setTitle(`Приглашение в ${team.name}`);
         teamEmbed.setDescription(`
     Позиция: ${DotaRolesEnum[newInvite.role]}

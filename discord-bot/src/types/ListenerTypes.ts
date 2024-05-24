@@ -1,10 +1,7 @@
 import { InteractionResponse } from "discord.js";
 
-export type ListenerResponse = Promise<void|InteractionResponse>;
+export type ListenerResponse = Promise<void|InteractionResponse|any>;
 
-export type ListenerExec<InteractionT> = (interaction: InteractionT) => ListenerResponse
-
-export type ListenerType<InteractionT> = {
+export type ListenerType = {
     getName: () => string,
-    execute?: ListenerExec<InteractionT>,
 };

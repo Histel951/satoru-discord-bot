@@ -14,7 +14,8 @@ import joinToGuildHandler from "./utils/joinToGuildHandler";
 import { CatchErrorT } from "./types/CatchErrorT";
 import handleError from "./utils/handleError";
 import { ListenerInteractionT as LInteractionT } from "./types/ListenerInteractionT";
-import { ListenerType } from "./types/ListenerTypes";
+import execDataListener from "./bot/listeners/execDataListener";
+import getDataFromCustomId from "./utils/getDataFromCustomId";
 
 const client = initClient({
     intents: [
@@ -32,11 +33,22 @@ const listenersExecutes = async (interaction: InteractionT) => {
     }
 
     if (interaction.isButton()) {
-        await execListener<ListenerType<ButtonInteraction>>(interaction, interaction.client.data.listeners.buttons);
+        await execListener<ButtonInteraction>(interaction, interaction.client.data.listeners.buttons);
+
+        const { name, data } = getDataFromCustomId(interaction);
+
+        if (data) {
+            await execDataListener<ButtonInteraction>(
+                interaction,
+                interaction.client.data.listeners.buttonsData,
+                name,
+                data,
+            );
+        }
     }
 
     if (interaction.isModalSubmit()) {
-        await execListener<ListenerType<ModalSubmitInteraction>>(interaction, interaction.client.data.listeners.modalSubmits);
+        await execListener<ModalSubmitInteraction>(interaction, interaction.client.data.listeners.modalSubmits);
     }
 }
 
