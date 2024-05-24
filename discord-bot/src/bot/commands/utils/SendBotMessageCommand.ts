@@ -25,7 +25,6 @@ export default class extends AbstractCommand {
             if (Array.isArray(buttonsOptions) && buttonsOptions.length) {
                 const row = new ActionRowBuilder<ButtonBuilder>();
 
-                console.log(buttonsOptions);
                 const btns = buttonsOptions.map(
                     (buttonOptions: CreateBtnI) => new ButtonBuilder()
                         .setLabel(buttonOptions.label)
