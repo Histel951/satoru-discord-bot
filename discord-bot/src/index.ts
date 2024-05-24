@@ -33,8 +33,6 @@ const listenersExecutes = async (interaction: InteractionT) => {
     }
 
     if (interaction.isButton()) {
-        await execListener<ButtonInteraction>(interaction, interaction.client.data.listeners.buttons);
-
         const { name, data } = getDataFromCustomId(interaction);
 
         if (data) {
@@ -44,6 +42,8 @@ const listenersExecutes = async (interaction: InteractionT) => {
                 name,
                 data,
             );
+        } else {
+            await execListener<ButtonInteraction>(interaction, interaction.client.data.listeners.buttons);
         }
     }
 
