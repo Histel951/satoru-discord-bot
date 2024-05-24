@@ -3,6 +3,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle } from 
 import { InteractionT } from "../../../types/InteractionT";
 import { Player } from "../../../database/models";
 import createBtn from "../../../utils/ui/createBtn";
+import createShowTeamInfoRow from "../../../utils/ui/rows/createShowTeamInfoRow";
 
 export default class extends AbstractListener<ButtonInteraction> {
 
@@ -11,14 +12,7 @@ export default class extends AbstractListener<ButtonInteraction> {
             discordId: interaction.user.id,
         }).exec();
 
-        const backRow = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents(
-                createBtn({
-                    label: 'Назад',
-                    customId: 'team-info-btn-update',
-                    style: ButtonStyle.Primary,
-                }),
-            );
+        const backRow = createShowTeamInfoRow('Назад', 'update');
 
         if (!player) {
             await interaction.update({
