@@ -8,10 +8,7 @@ import createShowTeamInfoRow from "../../../utils/ui/rows/createShowTeamInfoRow"
 export default class extends AbstractListener<ButtonInteraction> {
 
     async execute(interaction: ButtonInteraction & InteractionT) {
-        const player = await Player.findOne({
-            discordId: interaction.user.id,
-        }).exec();
-
+        const player = await Player.findOne({ discordId: interaction.user.id }).exec();
         const backRow = createShowTeamInfoRow('Назад', 'update');
 
         if (!player) {
@@ -24,22 +21,18 @@ export default class extends AbstractListener<ButtonInteraction> {
             return;
         }
 
-        const players = await Player.find({
-            team: player.team,
-        }).exec();
-
+        const players = await Player.find({ team: player.team }).exec();
         const btns: ButtonBuilder[] = [];
 
         players.forEach(player => {
-            const data = JSON.stringify({
-                playerId: player._id,
-                name: player.name,
-            });
-
             const kickPlayerButton = createBtn({
                 label: player.name,
-                customId: `kick-player-out-team->${data}`,
+                customId: `kick-player-out-team`,
                 style: ButtonStyle.Danger,
+                data: {
+                    playerId: player._id,
+                    name: player.name,
+                },
             });
 
             btns.push(kickPlayerButton);

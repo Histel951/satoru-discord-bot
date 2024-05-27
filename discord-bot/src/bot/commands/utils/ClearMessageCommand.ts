@@ -5,33 +5,26 @@ import { CatchErrorT } from "../../../types/CatchErrorT";
 import handleError from "../../../utils/handleError";
 
 export default class extends AbstractCommand {
-
     async execute(interaction: CommandInteraction) {
-        const amount = interaction.options.get('amount')?.value ?? 10;
+        await interaction.deferReply({ ephemeral: true });
+
+        const amountOption = interaction.options.get('amount');
+        const amount = amountOption ? amountOption.value as number : 10;
 
         try {
-            const fetched = await interaction.channel?.messages.fetch({
-                limit: Number(amount)
-            });
+            const fetchedMessages = await interaction.channel?.messages.fetch({ limit: amount });
 
-            if (fetched) {
-                for (const message of fetched) {
-                    try {
-                        await message[1]?.delete();
-                    } catch (e) {
-                        console.debug(handleError(e));
-                    }
-                }
+            if (fetchedMessages?.size) {
+                const deletionPromises = fetchedMessages.map(message => message.delete().catch(handleError));
+                await Promise.all(deletionPromises);
             }
 
-            return await interaction.reply({
-                content: `Очистка ${amount} сообщений.`,
-                ephemeral: true,
-            })
+            await interaction.editReply({
+                content: `Удалено ${fetchedMessages?.size ?? 0} сообщений.`
+            });
         } catch (error: CatchErrorT) {
-            return await interaction.reply({
-                content: 'Сообщения не очищен, ошибка: ' + handleError(error),
-                ephemeral: true,
+            await interaction.editReply({
+                content: `Не удалось удалить сообщения, ошибка: ${handleError(error)}`
             });
         }
     }
@@ -40,8 +33,7 @@ export default class extends AbstractCommand {
         return [
             option => option
                 .setName('amount')
-                .setDescription('Количество последних сообщений которое надо очистить.')
-                .setMinLength(1)
+                .setDescription('Количество последних сообщений, которое нужно удалить.')
                 .setRequired(false)
         ];
     }
