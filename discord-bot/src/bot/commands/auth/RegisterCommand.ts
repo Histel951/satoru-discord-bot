@@ -4,12 +4,19 @@ import showPlayerInfo from "../../../utils/me/showPlayerInfo";
 import AbstractCommand from "../AbstractCommand";
 import { CommandOptionSetCallbackT } from "../../../interfaces/CommandI";
 import registerMember from "../../../utils/auth/registerMember";
+import rcpRequest from "../../../utils/rabbit-mq/rcpRequest";
 
 export default class extends AbstractCommand {
 
     async execute(interaction: CommandInteraction, { dotaId }: { dotaId: string | number }) {
         try {
-            await registerMember(interaction, dotaId);
+            // @ts-ignore
+            const response: { discordId: string, rank: number } = await rcpRequest('registerMember', {
+                discordId: interaction.user.id,
+                dotaId
+            });
+
+            await registerMember(interaction, response.discordId, response.rank);
         } catch (error) {
             console.error("An error occurred:", error);
 

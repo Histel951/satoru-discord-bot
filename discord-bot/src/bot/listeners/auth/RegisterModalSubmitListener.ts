@@ -8,7 +8,7 @@ export default class extends AbstractListener<ModalSubmitInteraction> {
         const dotaId = interaction.fields.getTextInputValue('input-dota-profile-id');
 
         try {
-            await registerMember(interaction, dotaId);
+            // await registerMember(interaction, dotaId);
         } catch (error) {
             console.error("An error occurred:", error);
 
