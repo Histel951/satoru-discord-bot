@@ -7,7 +7,7 @@ export default class implements DotaPlayerApiAdapter<PlayerInfoStratzResponseT> 
         return {
             steamAccountId: data.player.steamAccount.id,
             name: data.player.names[0].name,
-            rank: data.player.performance.rank,
+            rank: data.player.ranks[0].rank,
             leaderboardRank: data.player.leaderboardRanks[0]?.rank ?? null,
             lastMatchDate: data.player.lastMatchDate,
         };

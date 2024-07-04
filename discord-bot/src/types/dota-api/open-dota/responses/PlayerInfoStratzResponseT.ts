@@ -9,15 +9,18 @@ export type PlayerInfoStratzResponseT = {
                 roleWinCount: number
                 roleType: string
             }],
-            rank: number,
         },
         leaderboardRanks: [{
-            rank: number,
+            rank: number
         }],
-        lastMatchDate: number,
+        lastMatchDate: number
         steamAccount: {
-            profileUri: string,
-            id: number,
+            profileUri: string
+            id: number
         },
+        ranks: [{
+            rank: number
+            seasonRankId: number
+        }],
     }
 }
